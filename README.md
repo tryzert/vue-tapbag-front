@@ -1,6 +1,6 @@
 # vue-empty-project
 
-> A empty vue project.
+> A web cloud disk app. Based on Vue.js, bootstrap, Go, Gin, etc.
 
 ## Build Setup
 
