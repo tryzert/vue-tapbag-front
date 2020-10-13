@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    
     <nav
       class="navbar fixed-top navbar-expand-md navbar-light bg-light"
       style="max-height: 56px"
@@ -75,7 +76,7 @@
             <a class="dropdown-item" href="">个人中心</a>
             <a class="dropdown-item" href="">设置</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="">退出</a>
+            <a class="dropdown-item" href="/logout">退出</a>
           </div>
         </div>
       </div>
@@ -86,9 +87,6 @@
         <div class="row" style="height: 100%">
           <div class="col-md-3 d-none d-md-block" id="content-left">
             <ul class="list-group">
-              <!-- <li class="list-group-item text-info" @click="getHomeFiles">全部文件</li> -->
-              <!-- <li class="list-group-item">我的分享</li>
-              <li class="list-group-item">回收站</li> -->
               <li class="list-group-item">
                 <button
                   type="button"
@@ -197,7 +195,12 @@
                   /></svg
                 >重命名
               </button>
-              <button type="button" class="btn btn-danger btn-sm">
+              <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                data-toggle="modal"
+                data-target="#exampleModal"
+              >
                 <svg
                   width="1em"
                   height="1em"
@@ -221,20 +224,44 @@
 
             <!-- <nav aria-label="breadcrumb"> -->
             <ol class="breadcrumb" style="margin: 0; padding: 8px 16px">
-              <li class="breadcrumb-item"><a href="/tapbag">Home</a></li>
-              <li class="breadcrumb-item"><a href="#">Library</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Data</li>
+              <li class="breadcrumb-item text-info" @click="getHomeFiles">
+                全部文件
+              </li>
+              <li
+                class="breadcrumb-item text-info"
+                v-for="it in this.middleHistoryPaths"
+                :key="it.id"
+                @click="getFiles(it.path)"
+              >
+                {{ it.name }}
+              </li>
+              <li
+                class="breadcrumb-item active"
+                aria-current="page"
+                @click="getFiles(lastHistoryPath.path)"
+              >
+                {{ lastHistoryPath.name }}
+              </li>
             </ol>
             <div id="file-box">
+              <p
+                class="text-center font-weight-bold font-italic text-info"
+                style="margin: 30px 0"
+                v-if="this.files.length === 0"
+              >
+                这里空无一物。
+              </p>
+
               <ul class="list-group">
                 <FileCard
-                  v-for="item in files"
-                  :key="item.id"
-                  :id="item.id"
-                  :filename="item.file_name"
-                  :filetype="item.file_type"
-                  :fullpath="item.full_path"
-                  @emitFileinfo="getFileinfo"
+                  v-for="file in files"
+                  :key="file.id"
+                  :id="file.id"
+                  :name="file.name"
+                  :type="file.type"
+                  :relpath="file.relpath"
+                  @emitFileInfo="getFileInfo"
+                  @emitFolderInfo="getFolderInfo"
                 ></FileCard>
               </ul>
             </div>
@@ -264,16 +291,50 @@ export default {
   data() {
     return {
       curpath: "/",
-      historyPath: ["/"],
       files: [],
     };
+  },
+  computed: {
+    historyPaths() {
+      if (
+        this.curpath === "/" ||
+        this.curpath === "." ||
+        this.curpath == "./"
+      ) {
+        return [];
+      }
+      let splitPaths = this.curpath.split("/").slice(1);
+      let plus = "";
+      let res = [];
+      let index = 0;
+      splitPaths.forEach((e) => {
+        plus = plus + "/" + e;
+        res.push({
+          id: index,
+          path: plus,
+          name: e,
+        });
+        index++;
+      });
+      return res;
+    },
+    middleHistoryPaths() {
+      let len = this.historyPaths.length;
+      return this.historyPaths.slice(0, len - 1);
+    },
+    lastHistoryPath() {
+      let leng = this.historyPaths.length;
+      if (leng === 0) {
+        return {};
+      }
+      return this.historyPaths[leng - 1];
+    },
   },
   created() {
     this.getHomeFiles();
   },
   methods: {
     getHomeFiles() {
-      this.curpath = "/";
       this.getFiles("/");
     },
     getFiles(path) {
@@ -283,21 +344,22 @@ export default {
           data: path,
         })
         .then((res) => {
-          console.log("axios res:", res.data.data)
-          if (res.data.data === null) {
-            return;
-          }
-          if (res.data.data.length > 0) {
+          if (res.data.data === null || res.data.data.length === 0) {
+            this.files = [];
+          } else {
             this.files = res.data.data;
           }
+          this.curpath = path;
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    getFileinfo(info) {
-      console.log("info is :", info);
-      this.getFiles(info);
+    getFolderInfo(info) {
+      this.getFiles(this.files[info].relpath);
+    },
+    getFileInfo(info) {
+      console.log("这是文件：", info);
     },
   },
 };
@@ -306,6 +368,9 @@ export default {
 <style scoped>
 div {
   /* border: 1px solid red; */
+}
+.modal-backdrop {
+  z-index: 0;
 }
 
 #navbarTogglerDemo {
@@ -340,6 +405,5 @@ div {
 #file-box {
   flex: 1;
   overflow-y: scroll;
-  /* background-color: grey; */
 }
 </style>
