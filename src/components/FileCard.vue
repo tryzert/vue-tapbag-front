@@ -4,7 +4,7 @@
       <input @click="checkboxClicked" type="checkbox" v-model="checked" />
       <div id="fileinfo-box" @click="fileinfoClicked(id)">
         <img style="width: 23px" :src="imgSrc" alt="" />
-        <span class="text-info text-break" >{{ name }}</span>
+        <span class="text-info text-break">{{ name }}</span>
       </div>
     </li>
   </div>
@@ -26,7 +26,6 @@ export default {
   methods: {
     checkboxClicked() {
       this.checked = this.checked ? false : true;
-
     },
     fileinfoClicked(info) {
       if (this.type == "folder") {

@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    
     <nav
       class="navbar fixed-top navbar-expand-md navbar-light bg-light"
       style="max-height: 56px"
@@ -198,8 +197,6 @@
               <button
                 type="button"
                 class="btn btn-danger btn-sm"
-                data-toggle="modal"
-                data-target="#exampleModal"
               >
                 <svg
                   width="1em"
@@ -282,6 +279,7 @@
 </template>
 
 <script>
+
 import axios from "axios";
 import FileCard from "./FileCard";
 export default {
@@ -359,7 +357,11 @@ export default {
       this.getFiles(this.files[info].relpath);
     },
     getFileInfo(info) {
-      console.log("这是文件：", info);
+      console.log("[Home.vue] 这是文件：", this.files[info]);
+      //判断文件是否可以在线打开
+      //todo
+      //如果可以在线打开
+      this.$emit("emitOpenFileOnline", this.files[info]);
     },
   },
 };
@@ -393,6 +395,7 @@ div {
 
 #content-left {
   height: 100%;
+
 }
 
 #content-right {
@@ -400,6 +403,7 @@ div {
   padding: 0;
   display: flex;
   flex-direction: column;
+  border-left: 1px solid rgba(0,0,0,.125);
 }
 
 #file-box {

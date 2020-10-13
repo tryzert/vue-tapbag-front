@@ -1,58 +1,128 @@
 <template>
   <div id="app">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <div
+    <div
       class="modal fade"
       id="exampleModal"
+      data-backdrop="static"
+      data-keyboard="false"
       tabindex="-1"
       role="dialog"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <p class="modal-title text-center" id="exampleModalLabel">正在播放：</p>
+            <p
+              class="modal-title text-center"
+              id="exampleModalLabel"
+              style="width: 100%"
+            >
+              {{ this.onlineFile.name }}
+            </p>
             <button
               type="button"
               class="close"
-              data-dismiss="modal"
               aria-label="Close"
+              @click="closeOnlineFile"
             >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <video controls autoplay name="media"><source src="https://blz-videos.nosdn.127.net/1/OverWatch/AnimatedShots/Overwatch_AnimatedShot_Winston_Recall.mp4" type="video/mp4"> -->
-            </video>
-            <!-- <iframe src="https://blz-videos.nosdn.127.net/1/OverWatch/AnimatedShots/Overwatch_AnimatedShot_Winston_Recall.mp4" frameborder="0"></iframe> -->
-          </div>
-          <!-- <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-dismiss="modal"
+            <video
+              id="onlineVideo"
+              v-if="this.onlineFile.type === 'video'"
+              controls=""
+              autoplay=""
+              name="media"
+              style="width: 100%"
             >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div> -->
+              <source
+                :src="
+                  'http://localhost:9010/tapbag/api/online' +
+                  this.onlineFile.relpath
+                "
+                type="video/mp4"
+              />
+            </video>
+            <audio
+              id="onlineAudio"
+              v-if="this.onlineFile.type === 'audio'"
+              style="width: 100%"
+              :src="
+                'http://localhost:9010/tapbag/api/online' +
+                this.onlineFile.relpath
+              "
+              controls=""
+              autoplay=""
+            ></audio>
+            <img
+              v-if="this.onlineFile.type === 'image'"
+              style="width: 100%"
+              :src="
+                'http://localhost:9010/tapbag/api/online' +
+                this.onlineFile.relpath
+              "
+              alt=""
+            />
+          </div>
         </div>
       </div>
     </div>
-        </div>
-      </div>
-    </div>
-    <router-view/>
+    <router-view @emitOpenFileOnline="getOpenFileOnline" />
   </div>
 </template>
 
+
 <script>
+import $ from "jquery";
 export default {
-  name: 'App'
-}
+  name: "App",
+  data() {
+    return {
+      onlineFile: {
+        id: -1,
+        name: "",
+        relpath: "",
+        type: "",
+      },
+    };
+  },
+  methods: {
+    getOpenFileOnline(info) {
+      console.log("[App.vue], 在线打开：", info);
+      if (
+        info.type === "audio" ||
+        info.type === "video" ||
+        info.type === "image"
+      ) {
+        this.onlineFile.id = info.id;
+        this.onlineFile.name = info.name;
+        this.onlineFile.relpath = info.relpath;
+        this.onlineFile.type = info.type;
+        $("#exampleModal").modal("show");
+        // if (this.onlineFile.type === "video") {
+        //   document.getElementById("onlineVideo").volume(0.5);
+        // } else if (this.onlineFile.type === "audio") {
+        //   document.getElementById("onlineAudio").volume(0.5);
+        // }
+      }
+      console.log("[App.vue], this.onlineFilie：", this.onlineFile);
+    },
+    closeOnlineFile() {
+      $("#exampleModal").modal("hide");
+      this.onlineFile.type = "";
+      if (this.onlineFile.type === "video") {
+        let video = document.getElementById("onlineVideo");
+        video.pause();
+      } else if (this.onlineFile.type === "audio") {
+        let audio = document.getElementById("onlineAudio");
+        audio.pause();
+      }
+    },
+  },
+};
 </script>
 
 <style coped>
