@@ -23,6 +23,9 @@ export default {
       return "http://localhost:9010/tapbag/static/img/" + this.type + ".svg";
     },
   },
+  updated(){
+    // this.checked = false;
+  },
   methods: {
     checkboxClicked() {
       this.checked = this.checked ? false : true;

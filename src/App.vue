@@ -2,7 +2,7 @@
   <div id="app">
     <div
       class="modal fade"
-      id="exampleModal"
+      id="mediaModal"
       data-backdrop="static"
       data-keyboard="false"
       tabindex="-1"
@@ -15,10 +15,11 @@
           <div class="modal-header">
             <p
               class="modal-title text-center"
-              id="exampleModalLabel"
+              id="mediaModal"
               style="width: 100%"
             >
-              {{ this.onlineFile.name }}
+            <strong class="text-info">{{ this.onlineFile.name }}</strong>
+              
             </p>
             <button
               type="button"
@@ -89,6 +90,8 @@ export default {
       },
     };
   },
+  created() {
+  },
   methods: {
     getOpenFileOnline(info) {
       console.log("[App.vue], 在线打开：", info);
@@ -101,7 +104,7 @@ export default {
         this.onlineFile.name = info.name;
         this.onlineFile.relpath = info.relpath;
         this.onlineFile.type = info.type;
-        $("#exampleModal").modal("show");
+        $("#mediaModal").modal("show");
         // if (this.onlineFile.type === "video") {
         //   document.getElementById("onlineVideo").volume(0.5);
         // } else if (this.onlineFile.type === "audio") {
@@ -111,7 +114,7 @@ export default {
       console.log("[App.vue], this.onlineFilie：", this.onlineFile);
     },
     closeOnlineFile() {
-      $("#exampleModal").modal("hide");
+      $("#mediaModal").modal("hide");
       this.onlineFile.type = "";
       if (this.onlineFile.type === "video") {
         let video = document.getElementById("onlineVideo");

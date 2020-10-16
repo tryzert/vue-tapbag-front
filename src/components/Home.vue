@@ -1,15 +1,12 @@
 <template>
   <div class="home">
-    <nav
-      class="navbar fixed-top navbar-expand-md navbar-light bg-light"
-      style="max-height: 56px"
-    >
+    <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
       <button
         class="navbar-toggler"
         type="button"
         data-toggle="collapse"
-        data-target="#navbarTogglerDemo"
-        aria-controls="navbarTogglerDemo"
+        data-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown"
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
@@ -18,100 +15,246 @@
       <a class="navbar-brand text-info" style="margin-right: 30px" href="tapbag"
         ><strong>TapBag</strong> <span class="badge badge-info">V1.0</span></a
       >
-
-      <div class="collapse navbar-collapse" id="navbarTogglerDemo">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-          <li
-            class="nav-item active"
-            style="margin: auto 0; margin-right: 30px"
-          >
-            <a class="nav-link font-italic" href="/"
-              >去导航页 <span class="sr-only">(current)</span></a
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <a class="navbar-nav nav-link font-italic" href="/"
+          ><span>
+            <svg
+              width="1.5em"
+              height="1.5em"
+              viewBox="0 0 16 16"
+              class="bi bi-cursor"
+              fill="currentColor"
             >
-          </li>
-
-          <li class="nav-item d-md-none">
-            <a class="nav-link" href="/tapbag">全部文件</a>
-          </li>
-          <li class="nav-item d-md-none">
-            <a class="nav-link" href="">我的分享</a>
-          </li>
-          <li class="nav-item d-md-none">
-            <a class="nav-link" href="">回收站</a>
-          </li>
-          <li class="nav-item">
-            <form class="form-inline my-2 my-lg-0">
-              <input
-                class="form-control mr-sm-2"
-                type="search"
-                placeholder="输入你想要查找的文件"
-                aria-label="Search"
+              <path
+                fill-rule="evenodd"
+                d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103zM2.25 8.184l3.897 1.67a.5.5 0 0 1 .262.263l1.67 3.897L12.743 3.52 2.25 8.184z"
               />
-              <button
-                class="btn btn-outline-success my-2 my-sm-0"
-                type="submit"
+            </svg>
+            去导航页
+          </span></a
+        >
+        <a class="navbar-nav nav-link d-md-none" href="/"
+          ><span
+            ><svg
+              width="1.5em"
+              height="1.5em"
+              viewBox="0 0 16 16"
+              class="bi bi-house"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"
+              />
+            </svg>
+            全部文件</span
+          ></a
+        >
+        <a class="navbar-nav nav-link d-md-none" href="/"
+          ><span
+            ><svg
+              width="1.5em"
+              height="1.5em"
+              viewBox="0 0 16 16"
+              class="bi bi-share"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"
+              />
+            </svg>
+            我的分享</span
+          ></a
+        >
+        <a class="navbar-nav nav-link d-md-none" href="/"
+          ><span
+            ><svg
+              width="1.5em"
+              height="1.5em"
+              viewBox="0 0 16 16"
+              class="bi bi-trash"
+              fill="currentColor"
+            >
+              <path
+                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+              />
+            </svg>
+            回收站</span
+          ></a
+        >
+        <form class="form-inline">
+          <input
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="输入你想要查找的文件"
+            aria-label="Search"
+          />
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+            搜索
+          </button>
+        </form>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle text-info"
+              href="#"
+              id="navbarDropdownMenuLink"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Maple Syrup
+            </a>
+            <div
+              class="dropdown-menu dropdown-menu-md-right"
+              aria-labelledby="navbarDropdownMenuLink"
+            >
+              <a class="dropdown-item" href="#"
+                ><svg
+                  width="1.5em"
+                  height="1.5em"
+                  viewBox="0 0 16 16"
+                  class="bi bi-person"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6 5c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"
+                  />
+                </svg>
+                个人中心</a
               >
-                搜索
-              </button>
-            </form>
+              <a class="dropdown-item" href="#"
+                ><svg
+                  width="1.5em"
+                  height="1.5em"
+                  viewBox="0 0 16 16"
+                  class="bi bi-gear"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8.837 1.626c-.246-.835-1.428-.835-1.674 0l-.094.319A1.873 1.873 0 0 1 4.377 3.06l-.292-.16c-.764-.415-1.6.42-1.184 1.185l.159.292a1.873 1.873 0 0 1-1.115 2.692l-.319.094c-.835.246-.835 1.428 0 1.674l.319.094a1.873 1.873 0 0 1 1.115 2.693l-.16.291c-.415.764.42 1.6 1.185 1.184l.292-.159a1.873 1.873 0 0 1 2.692 1.116l.094.318c.246.835 1.428.835 1.674 0l.094-.319a1.873 1.873 0 0 1 2.693-1.115l.291.16c.764.415 1.6-.42 1.184-1.185l-.159-.291a1.873 1.873 0 0 1 1.116-2.693l.318-.094c.835-.246.835-1.428 0-1.674l-.319-.094a1.873 1.873 0 0 1-1.115-2.692l.16-.292c.415-.764-.42-1.6-1.185-1.184l-.291.159A1.873 1.873 0 0 1 8.93 1.945l-.094-.319zm-2.633-.283c.527-1.79 3.065-1.79 3.592 0l.094.319a.873.873 0 0 0 1.255.52l.292-.16c1.64-.892 3.434.901 2.54 2.541l-.159.292a.873.873 0 0 0 .52 1.255l.319.094c1.79.527 1.79 3.065 0 3.592l-.319.094a.873.873 0 0 0-.52 1.255l.16.292c.893 1.64-.902 3.434-2.541 2.54l-.292-.159a.873.873 0 0 0-1.255.52l-.094.319c-.527 1.79-3.065 1.79-3.592 0l-.094-.319a.873.873 0 0 0-1.255-.52l-.292.16c-1.64.893-3.433-.902-2.54-2.541l.159-.292a.873.873 0 0 0-.52-1.255l-.319-.094c-1.79-.527-1.79-3.065 0-3.592l.319-.094a.873.873 0 0 0 .52-1.255l-.16-.292c-.892-1.64.902-3.433 2.541-2.54l.292.159a.873.873 0 0 0 1.255-.52l.094-.319z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M8 5.754a2.246 2.246 0 1 0 0 4.492 2.246 2.246 0 0 0 0-4.492zM4.754 8a3.246 3.246 0 1 1 6.492 0 3.246 3.246 0 0 1-6.492 0z"
+                  />
+                </svg>
+                设置</a
+              >
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#"
+                ><svg
+                  width="1.5em"
+                  height="1.5em"
+                  viewBox="0 0 16 16"
+                  class="bi bi-box-arrow-right"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+                  />
+                </svg>
+                退出</a
+              >
+            </div>
           </li>
         </ul>
-        <div class="nav-item dropdown">
-          <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            id="navbarDropdown"
-            role="button"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            Maple Syrup
-          </a>
-          <div
-            class="dropdown-menu dropdown-menu-md-right"
-            aria-labelledby="navbarDropdown"
-          >
-            <a class="dropdown-item" href="">个人中心</a>
-            <a class="dropdown-item" href="">设置</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/logout">退出</a>
-          </div>
-        </div>
       </div>
     </nav>
-
     <div id="home-content">
       <div class="container-fluid" style="height: 100%">
         <div class="row" style="height: 100%">
           <div class="col-md-3 d-none d-md-block" id="content-left">
             <ul class="list-group">
               <li class="list-group-item">
-                <button
-                  type="button"
-                  class="btn btn-link"
-                  @click="getHomeFiles"
-                >
+                <button type="button" class="btn btn-link">
+                  <svg
+                    width="1.5em"
+                    height="1.5em"
+                    viewBox="0 0 16 16"
+                    class="bi bi-house"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
+                    />
+                    <path
+                      fill-rule="evenodd"
+                      d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"
+                    />
+                  </svg>
                   全部文件
                 </button>
               </li>
               <li class="list-group-item">
-                <button type="button" class="btn btn-link">我的分享</button>
+                <button type="button" class="btn btn-link">
+                  <svg
+                    width="1.5em"
+                    height="1.5em"
+                    viewBox="0 0 16 16"
+                    class="bi bi-share"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"
+                    />
+                  </svg>
+                  我的分享
+                </button>
               </li>
               <li class="list-group-item">
-                <button type="button" class="btn btn-link">回收站</button>
+                <button type="button" class="btn btn-link">
+                  <svg
+                    width="1.5em"
+                    height="1.5em"
+                    viewBox="0 0 16 16"
+                    class="bi bi-trash"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+                    />
+                    <path
+                      fill-rule="evenodd"
+                      d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                    />
+                  </svg>
+                  回收站
+                </button>
               </li>
             </ul>
           </div>
           <div class="col-md-9 col-12" id="content-right">
             <div id="operation-btn">
-              <label class="text-info" style="margin-left: 10px">
+              <div class="form-group form-check d-inline">
                 <input
                   type="checkbox"
-                  style="width: 20px; height: 20px; margin-top: "
+                  class="form-check-input"
+                  id="checkbox-all"
+                  style="height: 20px; width: 20px"
                 />
-                全选
-              </label>
+                <label class="form-check-label" for="checkbox-all">全选</label>
+              </div>
               <button type="button" class="btn btn-success btn-sm">
                 <svg
                   width="1em"
@@ -133,7 +276,6 @@
                   viewBox="0 0 16 16"
                   class="bi bi-upload"
                   fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
                     fill-rule="evenodd"
@@ -152,7 +294,6 @@
                   viewBox="0 0 16 16"
                   class="bi bi-download"
                   fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
                     fill-rule="evenodd"
@@ -171,7 +312,6 @@
                   viewBox="0 0 16 16"
                   class="bi bi-arrow-right"
                   fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
                     fill-rule="evenodd"
@@ -186,7 +326,6 @@
                   viewBox="0 0 16 16"
                   class="bi bi-pencil"
                   fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
                     fill-rule="evenodd"
@@ -194,17 +333,13 @@
                   /></svg
                 >重命名
               </button>
-              <button
-                type="button"
-                class="btn btn-danger btn-sm"
-              >
+              <button type="button" class="btn btn-danger btn-sm">
                 <svg
                   width="1em"
                   height="1em"
                   viewBox="0 0 16 16"
                   class="bi bi-trash"
                   fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
                     d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
@@ -216,51 +351,54 @@
                 >删除
               </button>
             </div>
-
-            <!-- <button type="button" class="btn btn-dark btn-sm">Dark</button> -->
-
-            <!-- <nav aria-label="breadcrumb"> -->
-            <ol class="breadcrumb" style="margin: 0; padding: 8px 16px">
-              <li class="breadcrumb-item text-info" @click="getHomeFiles">
-                全部文件
-              </li>
-              <li
-                class="breadcrumb-item text-info"
-                v-for="it in this.middleHistoryPaths"
-                :key="it.id"
-                @click="getFiles(it.path)"
-              >
-                {{ it.name }}
-              </li>
-              <li
-                class="breadcrumb-item active"
-                aria-current="page"
-                @click="getFiles(lastHistoryPath.path)"
-              >
-                {{ lastHistoryPath.name }}
-              </li>
-            </ol>
+            <div class="breadcrumb-box">
+              <ol class="breadcrumb" style="margin: 0; padding: 8px 16px">
+                <li class="breadcrumb-item text-info">全部文件</li>
+              </ol>
+            </div>
             <div id="file-box">
-              <p
-                class="text-center font-weight-bold font-italic text-info"
-                style="margin: 30px 0"
-                v-if="this.files.length === 0"
-              >
-                这里空无一物。
-              </p>
-
-              <ul class="list-group">
-                <FileCard
-                  v-for="file in files"
-                  :key="file.id"
-                  :id="file.id"
-                  :name="file.name"
-                  :type="file.type"
-                  :relpath="file.relpath"
-                  @emitFileInfo="getFileInfo"
-                  @emitFolderInfo="getFolderInfo"
-                ></FileCard>
-              </ul>
+              <p>start start start start start start</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>0000000000000000000000000000000000000</p>
+              <p>end end end end end end end end end</p>
             </div>
           </div>
         </div>
@@ -278,108 +416,12 @@
   </div>
 </template>
 
-<script>
 
-import axios from "axios";
-import FileCard from "./FileCard";
-export default {
-  components: {
-    FileCard,
-  },
-  data() {
-    return {
-      curpath: "/",
-      files: [],
-    };
-  },
-  computed: {
-    historyPaths() {
-      if (
-        this.curpath === "/" ||
-        this.curpath === "." ||
-        this.curpath == "./"
-      ) {
-        return [];
-      }
-      let splitPaths = this.curpath.split("/").slice(1);
-      let plus = "";
-      let res = [];
-      let index = 0;
-      splitPaths.forEach((e) => {
-        plus = plus + "/" + e;
-        res.push({
-          id: index,
-          path: plus,
-          name: e,
-        });
-        index++;
-      });
-      return res;
-    },
-    middleHistoryPaths() {
-      let len = this.historyPaths.length;
-      return this.historyPaths.slice(0, len - 1);
-    },
-    lastHistoryPath() {
-      let leng = this.historyPaths.length;
-      if (leng === 0) {
-        return {};
-      }
-      return this.historyPaths[leng - 1];
-    },
-  },
-  created() {
-    this.getHomeFiles();
-  },
-  methods: {
-    getHomeFiles() {
-      this.getFiles("/");
-    },
-    getFiles(path) {
-      axios
-        .post("http://localhost:9010/tapbag/api", {
-          code: 100,
-          data: path,
-        })
-        .then((res) => {
-          if (res.data.data === null || res.data.data.length === 0) {
-            this.files = [];
-          } else {
-            this.files = res.data.data;
-          }
-          this.curpath = path;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    getFolderInfo(info) {
-      this.getFiles(this.files[info].relpath);
-    },
-    getFileInfo(info) {
-      console.log("[Home.vue] 这是文件：", this.files[info]);
-      //判断文件是否可以在线打开
-      //todo
-      //如果可以在线打开
-      this.$emit("emitOpenFileOnline", this.files[info]);
-    },
-  },
-};
+<script>
+export default {};
 </script>
 
 <style scoped>
-div {
-  /* border: 1px solid red; */
-}
-.modal-backdrop {
-  z-index: 0;
-}
-
-#navbarTogglerDemo {
-  /* background-color: #f8f9fa; */
-  background-color: #fff;
-}
-
 .home {
   position: fixed;
   width: 100%;
@@ -395,7 +437,6 @@ div {
 
 #content-left {
   height: 100%;
-
 }
 
 #content-right {
@@ -403,7 +444,12 @@ div {
   padding: 0;
   display: flex;
   flex-direction: column;
-  border-left: 1px solid rgba(0,0,0,.125);
+  border-left: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+#operation-btn {
+  margin: 0;
+  padding: 5px 20px;
 }
 
 #file-box {

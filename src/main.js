@@ -7,6 +7,11 @@ import router from './router'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
+import axios from 'axios'
+
+
+axios.defaults.baseURL = 'http://localhost:9010'
+Vue.prototype.$axios = axios
 
 
 Vue.config.productionTip = false
