@@ -354,6 +354,8 @@
             <div class="breadcrumb-box">
               <ol class="breadcrumb" style="margin: 0; padding: 8px 16px">
                 <li class="breadcrumb-item text-info">全部文件</li>
+                <li style="color:#6c757d;">&nbsp;/&nbsp;</li>
+                <li class="text-info">全部文件</li>
               </ol>
             </div>
             <div id="file-box">
@@ -418,7 +420,14 @@
 
 
 <script>
-export default {};
+export default {
+  created() {
+    this.$toast({
+      type: "success",
+      message: "消息发送成功！",
+    });
+  }
+};
 </script>
 
 <style scoped>

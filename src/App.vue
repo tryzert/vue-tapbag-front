@@ -105,11 +105,6 @@ export default {
         this.onlineFile.relpath = info.relpath;
         this.onlineFile.type = info.type;
         $("#mediaModal").modal("show");
-        // if (this.onlineFile.type === "video") {
-        //   document.getElementById("onlineVideo").volume(0.5);
-        // } else if (this.onlineFile.type === "audio") {
-        //   document.getElementById("onlineAudio").volume(0.5);
-        // }
       }
       console.log("[App.vue], this.onlineFilie：", this.onlineFile);
     },

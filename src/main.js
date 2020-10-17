@@ -9,10 +9,13 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import axios from 'axios'
 
+import toast from './components/toast/toast.js'
+
 
 axios.defaults.baseURL = 'http://localhost:9010'
 Vue.prototype.$axios = axios
 
+Vue.prototype.$toast = toast
 
 Vue.config.productionTip = false
 
