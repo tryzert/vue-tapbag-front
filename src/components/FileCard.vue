@@ -28,7 +28,8 @@ export default {
   },
   methods: {
     checkboxClicked() {
-      this.checked = this.checked ? false : true;
+      // this.checked = this.checked ? false : true;
+      this.checked = !this.checked;
     },
     fileinfoClicked(info) {
       if (this.type == "folder") {

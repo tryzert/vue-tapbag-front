@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div
+    <!-- <div
       class="modal fade"
       id="mediaModal"
       data-backdrop="static"
@@ -70,8 +70,9 @@
           </div>
         </div>
       </div>
-    </div>
-    <router-view @emitOpenFileOnline="getOpenFileOnline" />
+    </div> -->
+    <!-- <router-view @emitOpenFileOnline="getOpenFileOnline" /> -->
+    <router-view />
   </div>
 </template>
 

@@ -1,5 +1,37 @@
 <template>
   <div class="home">
+    <div id="media-modal">
+      <img
+        id="media-image"
+        onClick="event.cancelBubble = true"
+        style="max-width: 100%; max-height: 100%"
+        src="https://315.yishu1000.com/201806/036/44.jpg"
+        alt=""
+      />
+      <div id="video-container" onClick="event.cancelBubble = true">
+        <p class="text-center" style="width: 100%">
+          <strong class="text-info">正在播放：1234567.mp4</strong>
+        </p>
+        <video id="media-video" controls="" autoplay="autoplay" name="media">
+          <source
+            src="https://blz-videos.nosdn.127.net/1/OverWatch/OVR-S03_E03_McCree_REUNION_zhCN_1080P_mb78.mp4"
+            type="video/mp4"
+          />
+        </video>
+        <video
+          id="media-audio"
+          height="56px"
+          controls=""
+          autoplay="autoplay"
+          name="media"
+        >
+          <source
+            src="http://eh.sycdn.kuwo.cn/1dea1984f0f27fb7dfeb5cf658e98ced/5f8c82b9/resource/n2/48/49/2473943830.mp3"
+            type="audio/mpeg"
+          />
+        </video>
+      </div>
+    </div>
     <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
       <button
         class="navbar-toggler"
@@ -184,63 +216,57 @@
         <div class="row" style="height: 100%">
           <div class="col-md-3 d-none d-md-block" id="content-left">
             <ul class="list-group">
-              <li class="list-group-item">
-                <button type="button" class="btn btn-link">
-                  <svg
-                    width="1.5em"
-                    height="1.5em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-house"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"
-                    />
-                  </svg>
-                  全部文件
-                </button>
+              <li class="list-group-item text-info">
+                <svg
+                  width="1.5em"
+                  height="1.5em"
+                  viewBox="0 0 16 16"
+                  class="bi bi-house"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"
+                  />
+                </svg>
+                全部文件
               </li>
-              <li class="list-group-item">
-                <button type="button" class="btn btn-link">
-                  <svg
-                    width="1.5em"
-                    height="1.5em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-share"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"
-                    />
-                  </svg>
-                  我的分享
-                </button>
+              <li class="list-group-item text-info">
+                <svg
+                  width="1.5em"
+                  height="1.5em"
+                  viewBox="0 0 16 16"
+                  class="bi bi-share"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"
+                  />
+                </svg>
+                我的分享
               </li>
-              <li class="list-group-item">
-                <button type="button" class="btn btn-link">
-                  <svg
-                    width="1.5em"
-                    height="1.5em"
-                    viewBox="0 0 16 16"
-                    class="bi bi-trash"
-                    fill="currentColor"
-                  >
-                    <path
-                      d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
-                    />
-                    <path
-                      fill-rule="evenodd"
-                      d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
-                    />
-                  </svg>
-                  回收站
-                </button>
+              <li class="list-group-item text-info">
+                <svg
+                  width="1.5em"
+                  height="1.5em"
+                  viewBox="0 0 16 16"
+                  class="bi bi-trash"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                  />
+                </svg>
+                回收站
               </li>
             </ul>
           </div>
@@ -253,9 +279,15 @@
                   id="checkbox-all"
                   style="height: 20px; width: 20px"
                 />
-                <label class="form-check-label" for="checkbox-all">全选</label>
+                <label class="form-check-label" for="checkbox-all"
+                  >&nbsp;全选</label
+                >
               </div>
-              <button type="button" class="btn btn-success btn-sm">
+              <button
+                type="button"
+                class="btn btn-success btn-sm"
+                @click="showImage"
+              >
                 <svg
                   width="1em"
                   height="1em"
@@ -269,7 +301,11 @@
                   /></svg
                 >新建
               </button>
-              <button type="button" class="btn btn-info btn-sm">
+              <button
+                type="button"
+                class="btn btn-info btn-sm"
+                @click="playAudio"
+              >
                 <svg
                   width="1em"
                   height="1em"
@@ -287,7 +323,11 @@
                   /></svg
                 >上传
               </button>
-              <button type="button" class="btn btn-warning btn-sm">
+              <button
+                type="button"
+                class="btn btn-warning btn-sm"
+                @click="playVideo"
+              >
                 <svg
                   width="1em"
                   height="1em"
@@ -354,7 +394,7 @@
             <div class="breadcrumb-box">
               <ol class="breadcrumb" style="margin: 0; padding: 8px 16px">
                 <li class="breadcrumb-item text-info">全部文件</li>
-                <li style="color:#6c757d;">&nbsp;/&nbsp;</li>
+                <li style="color: #6c757d">&nbsp;/&nbsp;</li>
                 <li class="text-info">全部文件</li>
               </ol>
             </div>
@@ -420,21 +460,133 @@
 
 
 <script>
+import $ from "jquery";
 export default {
   created() {
     this.$toast({
       type: "success",
-      message: "消息发送成功！",
+      message: "数据更新成功！",
     });
-  }
+  },
+  mounted() {
+    var ma = document.getElementById("media-audio");
+      if (ma != null) {
+        ma.pause();
+      }
+    var mv = document.getElementById("media-video");
+    if (mv != null) {
+      mv.pause();
+    }
+  },
+  methods: {
+    showImage(imgUrl) {
+      var mdal = $("#media-modal");
+      var mimage = $("#media-image");
+      var vc = $("#video-container");
+      var mvideo = $("#media-video");
+      var maudio = $("#media-audio");
+      mdal.css("display", "flex");
+      mdal.show();
+      mimage.show();
+      vc.hide();
+      mvideo.hide();
+      maudio.hide();
+      mdal.click(function () {
+        mimage.hide();
+        $(this).hide();
+      });
+    },
+
+    playAudio(audioUrl) {
+      var mdal = $("#media-modal");
+      var mimage = $("#media-image");
+      var vc = $("#video-container");
+      var mvideo = $("#media-video");
+      var maudio = $("#media-audio");
+      mdal.css("display", "flex");
+      mdal.show();
+      mimage.hide();
+      vc.show();
+      mvideo.hide();
+      maudio.show();
+      mdal.click(function () {
+        var v = document.getElementById("media-audio");
+        if (v != null) {
+          v.pause();
+        }
+        maudio.hide();
+        $(this).hide();
+      });
+    },
+    playVideo(videoUrl) {
+      console.log("playVideo");
+      var mdal = $("#media-modal");
+      var mimage = $("#media-image");
+      var vc = $("#video-container");
+      var mvideo = $("#media-video");
+      var maudio = $("#media-audio");
+      mdal.css("display", "flex");
+      mdal.show();
+      mimage.hide();
+      vc.show();
+      maudio.hide();
+      mvideo.show();
+      mdal.click(function () {
+        var v = document.getElementById("media-video");
+        if (v != null) {
+          v.pause();
+        }
+        mvideo.hide();
+        $(this).hide();
+      });
+    },
+  },
 };
 </script>
 
 <style scoped>
 .home {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
+
+#media-modal {
   position: fixed;
   width: 100%;
   height: 100%;
+  z-index: 1500;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+#video-container {
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #fff;
+  display: none;
+}
+
+@media screen and (max-width: 700px) {
+  #video-container {
+    width: 95%;
+    /* height: auto; */
+  }
+}
+
+@media screen and (min-width: 700px) {
+  #video-container {
+    width: 700px;
+    /* height: auto; */
+  }
+}
+
+#video-container video {
+  width: 100%;
 }
 
 #home-content {
@@ -448,6 +600,10 @@ export default {
   height: 100%;
 }
 
+#content-left ul li {
+  cursor: pointer;
+}
+
 #content-right {
   height: 100%;
   padding: 0;
@@ -459,6 +615,10 @@ export default {
 #operation-btn {
   margin: 0;
   padding: 5px 20px;
+}
+
+.breadcrumb-box .breadcrumb li {
+  cursor: pointer;
 }
 
 #file-box {
