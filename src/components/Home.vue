@@ -5,30 +5,26 @@
         id="media-image"
         onClick="event.cancelBubble = true"
         style="max-width: 100%; max-height: 100%"
-        src="https://315.yishu1000.com/201806/036/44.jpg"
+        :src="this.onlineFileRelpath"
         alt=""
       />
       <div id="video-container" onClick="event.cancelBubble = true">
         <p class="text-center" style="width: 100%">
-          <strong class="text-info">正在播放：1234567.mp4</strong>
+          <strong class="text-info"
+            >正在播放：{{ this.onlineFile.name }}</strong
+          >
         </p>
-        <video id="media-video" controls="" autoplay="autoplay" name="media">
-          <source
-            src="https://blz-videos.nosdn.127.net/1/OverWatch/OVR-S03_E03_McCree_REUNION_zhCN_1080P_mb78.mp4"
-            type="video/mp4"
-          />
+        <video id="media-video" controls="" autoplay="" name="media">
+          <source src="" type="video/mp4" />
         </video>
         <video
+          style="height: 56px"
           id="media-audio"
-          height="56px"
           controls=""
-          autoplay="autoplay"
+          autoplay=""
           name="media"
         >
-          <source
-            src="http://eh.sycdn.kuwo.cn/1dea1984f0f27fb7dfeb5cf658e98ced/5f8c82b9/resource/n2/48/49/2473943830.mp3"
-            type="audio/mpeg"
-          />
+          <source src="" type="audio/mpeg" />
         </video>
       </div>
     </div>
@@ -216,7 +212,7 @@
         <div class="row" style="height: 100%">
           <div class="col-md-3 d-none d-md-block" id="content-left">
             <ul class="list-group">
-              <li class="list-group-item text-info">
+              <li class="list-group-item text-info" @click="getFiles('/')">
                 <svg
                   width="1.5em"
                   height="1.5em"
@@ -286,7 +282,6 @@
               <button
                 type="button"
                 class="btn btn-success btn-sm"
-                @click="showImage"
               >
                 <svg
                   width="1em"
@@ -304,7 +299,6 @@
               <button
                 type="button"
                 class="btn btn-info btn-sm"
-                @click="playAudio"
               >
                 <svg
                   width="1em"
@@ -326,7 +320,6 @@
               <button
                 type="button"
                 class="btn btn-warning btn-sm"
-                @click="playVideo"
               >
                 <svg
                   width="1em"
@@ -393,54 +386,45 @@
             </div>
             <div class="breadcrumb-box">
               <ol class="breadcrumb" style="margin: 0; padding: 8px 16px">
-                <li class="breadcrumb-item text-info">全部文件</li>
-                <li style="color: #6c757d">&nbsp;/&nbsp;</li>
-                <li class="text-info">全部文件</li>
+                <li class="breadcrumb-item text-info" @click="getFiles('/')">
+                  全部文件
+                </li>
+                <li
+                  v-if="this.historyPaths.length === 0"
+                  style="color: #6c757d"
+                >
+                  &nbsp;/
+                </li>
+                <li
+                  id="breadcrumb-path"
+                  v-for="it in this.historyPaths"
+                  :key="it.id"
+                  @click="getFiles(it.path)"
+                >
+                  <span style="color: #6c757d">&nbsp;/&nbsp;</span>{{ it.name }}
+                </li>
               </ol>
             </div>
             <div id="file-box">
-              <p>start start start start start start</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>0000000000000000000000000000000000000</p>
-              <p>end end end end end end end end end</p>
+              <p
+                class="text-center font-weight-bold font-italic text-info"
+                style="margin: 30px 0"
+                v-if="this.files.length === 0"
+              >
+                这里空无一物。
+              </p>
+              <ul class="list-group">
+                <FileCard
+                  v-for="file in files"
+                  :key="file.relpath"
+                  :id="file.id"
+                  :name="file.name"
+                  :type="file.type"
+                  :relpath="file.relpath"
+                  @emitFileInfo="getFileInfo"
+                  @emitFolderInfo="getFolderInfo"
+                ></FileCard>
+              </ul>
             </div>
           </div>
         </div>
@@ -461,31 +445,85 @@
 
 <script>
 import $ from "jquery";
+import FileCard from "./FileCard";
 export default {
+  components: {
+    FileCard,
+  },
+  data() {
+    return {
+      curpath: "/",
+      files: [],
+      onlineFile: {
+        id: -1,
+        type: "",
+        openable: false,
+        name: "",
+        relpath: "",
+      },
+    };
+  },
+  computed: {
+    onlineFileRelpath() {
+      if (this.onlineFile.relpath === "") {
+        return "";
+      }
+      return (
+        "http://localhost:9010/tapbag/api/online" + this.onlineFile.relpath
+      );
+    },
+    historyPaths() {
+      if (
+        this.curpath === "/" ||
+        this.curpath === "." ||
+        this.curpath === "./" ||
+        this.curpath == null
+      ) {
+        this.curpath = "/";
+        return [];
+      }
+      let splitPaths = this.curpath.split("/").slice(1);
+      let plus = "";
+      let res = [];
+      let index = 0;
+      splitPaths.forEach((e) => {
+        plus = plus + "/" + e;
+        res.push({
+          id: index,
+          path: plus,
+          name: e,
+        });
+        index++;
+      });
+      return res;
+    },
+  },
   created() {
     this.$toast({
       type: "success",
       message: "数据更新成功！",
     });
+    this.getFiles("/");
   },
   mounted() {
     var ma = document.getElementById("media-audio");
-      if (ma != null) {
-        ma.pause();
-      }
+    if (ma != null) {
+      ma.pause();
+    }
     var mv = document.getElementById("media-video");
     if (mv != null) {
       mv.pause();
     }
   },
   methods: {
-    showImage(imgUrl) {
+    showImage() {
       var mdal = $("#media-modal");
       var mimage = $("#media-image");
       var vc = $("#video-container");
       var mvideo = $("#media-video");
       var maudio = $("#media-audio");
       mdal.css("display", "flex");
+      // mimage.attr("src", this.onlineFileRelpath);
       mdal.show();
       mimage.show();
       vc.hide();
@@ -497,7 +535,7 @@ export default {
       });
     },
 
-    playAudio(audioUrl) {
+    playAudio() {
       var mdal = $("#media-modal");
       var mimage = $("#media-image");
       var vc = $("#video-container");
@@ -506,9 +544,11 @@ export default {
       mdal.css("display", "flex");
       mdal.show();
       mimage.hide();
+      maudio.attr("src", this.onlineFileRelpath);
       vc.show();
       mvideo.hide();
       maudio.show();
+      var _this = this;
       mdal.click(function () {
         var v = document.getElementById("media-audio");
         if (v != null) {
@@ -516,10 +556,12 @@ export default {
         }
         maudio.hide();
         $(this).hide();
+        vc.attr("src", "");
+        // _this.onlineFile.relpath = "";
       });
     },
-    playVideo(videoUrl) {
-      console.log("playVideo");
+
+    playVideo() {
       var mdal = $("#media-modal");
       var mimage = $("#media-image");
       var vc = $("#video-container");
@@ -530,7 +572,9 @@ export default {
       mimage.hide();
       vc.show();
       maudio.hide();
+      mvideo.attr("src", this.onlineFileRelpath);
       mvideo.show();
+      var _this = this;
       mdal.click(function () {
         var v = document.getElementById("media-video");
         if (v != null) {
@@ -539,6 +583,49 @@ export default {
         mvideo.hide();
         $(this).hide();
       });
+    },
+
+    getFiles(path) {
+      this.$axios
+        .post("/tapbag/api", {
+          code: 2000,
+          data: path,
+        })
+        .then((res) => {
+          if (res.data.data === null || res.data.data.length === 0) {
+            this.files = [];
+          } else if (res.data.code === 2000) {
+            this.files = res.data.data;
+          }
+          this.curpath = path;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getFileInfo(info) {
+      if (this.files[info].openable) {
+        this.onlineFile.id = this.files[info].id;
+        this.onlineFile.type = this.files[info].type;
+        this.onlineFile.openable = this.files[info].openable;
+        this.onlineFile.name = this.files[info].name;
+        this.onlineFile.relpath = this.files[info].relpath;
+        if (this.files[info].type === "image") {
+          this.showImage();
+        } else if (this.files[info].type === "audio") {
+          this.playAudio();
+        } else if (this.files[info].type === "video") {
+          this.playVideo();
+        }
+      } else {
+        this.$toast({
+          type: "",
+          message: "暂无法预览此类型文件",
+        });
+      }
+    },
+    getFolderInfo(info) {
+      this.getFiles(this.files[info].relpath);
     },
   },
 };
@@ -574,14 +661,12 @@ export default {
 @media screen and (max-width: 700px) {
   #video-container {
     width: 95%;
-    /* height: auto; */
   }
 }
 
 @media screen and (min-width: 700px) {
   #video-container {
     width: 700px;
-    /* height: auto; */
   }
 }
 
@@ -619,6 +704,14 @@ export default {
 
 .breadcrumb-box .breadcrumb li {
   cursor: pointer;
+}
+
+#breadcrumb-path:last-child {
+  font-weight: bold;
+}
+
+#breadcrumb-path:not(:last-child ){
+  color: #17A2B8;
 }
 
 #file-box {

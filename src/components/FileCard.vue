@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  props: ["id", "type", "name", "relpath"],
+  props: ["id", "type", "openable", "name", "relpath"],
   data() {
     return {
       checked: false,
@@ -20,7 +20,8 @@ export default {
   },
   computed: {
     imgSrc() {
-      return "http://localhost:9010/tapbag/static/img/" + this.type + ".svg";
+      // return "http://localhost:9010/tapbag/static/img/" + this.type + ".svg";
+      return require("../assets/" + this.type + ".svg")
     },
   },
   updated(){
@@ -28,7 +29,6 @@ export default {
   },
   methods: {
     checkboxClicked() {
-      // this.checked = this.checked ? false : true;
       this.checked = !this.checked;
     },
     fileinfoClicked(info) {
@@ -63,5 +63,6 @@ img {
 #fileinfo-box {
   flex: 1;
   display: flex;
+  cursor: pointer;
 }
 </style>
