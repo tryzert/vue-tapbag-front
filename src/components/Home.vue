@@ -1,32 +1,7 @@
 <template>
   <div class="home">
-    <div id="media-modal">
-      <img
-        id="media-image"
-        onClick="event.cancelBubble = true"
-        style="max-width: 100%; max-height: 100%"
-        :src="this.onlineFileRelpath"
-        alt=""
-      />
-      <div id="video-container" onClick="event.cancelBubble = true">
-        <p class="text-center" style="width: 100%">
-          <strong class="text-info"
-            >正在播放：{{ this.onlineFile.name }}</strong
-          >
-        </p>
-        <video id="media-video" controls="" autoplay="" name="media">
-          <source src="" type="video/mp4" />
-        </video>
-        <video
-          style="height: 56px"
-          id="media-audio"
-          controls=""
-          autoplay=""
-          name="media"
-        >
-          <source src="" type="audio/mpeg" />
-        </video>
-      </div>
+    <div id="media-modal" style="display: none">
+      <div></div>
     </div>
     <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
       <button
@@ -279,10 +254,7 @@
                   >&nbsp;全选</label
                 >
               </div>
-              <button
-                type="button"
-                class="btn btn-success btn-sm"
-              >
+              <button type="button" class="btn btn-success btn-sm">
                 <svg
                   width="1em"
                   height="1em"
@@ -296,10 +268,7 @@
                   /></svg
                 >新建
               </button>
-              <button
-                type="button"
-                class="btn btn-info btn-sm"
-              >
+              <button type="button" class="btn btn-info btn-sm">
                 <svg
                   width="1em"
                   height="1em"
@@ -317,10 +286,7 @@
                   /></svg
                 >上传
               </button>
-              <button
-                type="button"
-                class="btn btn-warning btn-sm"
-              >
+              <button type="button" class="btn btn-warning btn-sm">
                 <svg
                   width="1em"
                   height="1em"
@@ -464,12 +430,13 @@ export default {
     };
   },
   computed: {
-    onlineFileRelpath() {
+    onlineFileSrc() {
       if (this.onlineFile.relpath === "") {
         return "";
       }
       return (
-        "http://localhost:9010/tapbag/api/online" + this.onlineFile.relpath
+        // "http://localhost:9010/tapbag/api/online" + this.onlineFile.relpath
+        "/tapbag/api/online" + this.onlineFile.relpath
       );
     },
     historyPaths() {
@@ -505,83 +472,84 @@ export default {
     });
     this.getFiles("/");
   },
-  mounted() {
-    var ma = document.getElementById("media-audio");
-    if (ma != null) {
-      ma.pause();
-    }
-    var mv = document.getElementById("media-video");
-    if (mv != null) {
-      mv.pause();
-    }
-  },
   methods: {
     showImage() {
-      var mdal = $("#media-modal");
-      var mimage = $("#media-image");
-      var vc = $("#video-container");
-      var mvideo = $("#media-video");
-      var maudio = $("#media-audio");
-      mdal.css("display", "flex");
-      // mimage.attr("src", this.onlineFileRelpath);
-      mdal.show();
-      mimage.show();
-      vc.hide();
-      mvideo.hide();
-      maudio.hide();
-      mdal.click(function () {
-        mimage.hide();
-        $(this).hide();
+      var closeButton = $(
+        `<img src="` + require("../assets/closeButton.png") + `" alt="">`
+      )
+        .css("top", "0")
+        .css("right", "0")
+        .css("position", "fixed")
+        .css("cursor", "pointer");
+      var image = $(
+        `<img src="` +
+          this.onlineFileSrc +
+          `" style="max-width: 100%; max-height: 100%" alt="">`
+      );
+      $("#media-modal div")
+        .attr("id", "modal-image-box")
+        .append(closeButton)
+        .append(image);
+      $("#media-modal").show();
+      closeButton.click(function () {
+        $("#modal-image-box").empty().removeAttr("id");
+        $("#media-modal").hide();
       });
     },
 
     playAudio() {
-      var mdal = $("#media-modal");
-      var mimage = $("#media-image");
-      var vc = $("#video-container");
-      var mvideo = $("#media-video");
-      var maudio = $("#media-audio");
-      mdal.css("display", "flex");
-      mdal.show();
-      mimage.hide();
-      maudio.attr("src", this.onlineFileRelpath);
-      vc.show();
-      mvideo.hide();
-      maudio.show();
-      var _this = this;
-      mdal.click(function () {
-        var v = document.getElementById("media-audio");
-        if (v != null) {
-          v.pause();
-        }
-        maudio.hide();
-        $(this).hide();
-        vc.attr("src", "");
-        // _this.onlineFile.relpath = "";
+      var closeButton = $(
+        `<img src="` + require("../assets/closeButton1.png") + `" alt="">`
+      )
+        .css("float", "right")
+        .css("cursor", "pointer");
+      $("#media-modal div")
+        .attr("id", "modal-audio-box")
+        .append(closeButton)
+        .append(
+          `<p class="text-center" style="width: 100%"><strong class="text-info">正在播放：` +
+            this.onlineFile.name +
+            `</strong></p>`
+        )
+        .append(
+          `<audio src="` +
+            this.onlineFileSrc +
+            `" style="width: 100%" controls=true autoplay="autoplay"></audio>`
+        );
+      $("#media-modal").show();
+      $("audio")[0].volume = 0.35;
+      closeButton.click(function () {
+        $("#modal-audio-box").empty().removeAttr("id");
+        $("#media-modal").hide();
       });
     },
 
     playVideo() {
-      var mdal = $("#media-modal");
-      var mimage = $("#media-image");
-      var vc = $("#video-container");
-      var mvideo = $("#media-video");
-      var maudio = $("#media-audio");
-      mdal.css("display", "flex");
-      mdal.show();
-      mimage.hide();
-      vc.show();
-      maudio.hide();
-      mvideo.attr("src", this.onlineFileRelpath);
-      mvideo.show();
-      var _this = this;
-      mdal.click(function () {
-        var v = document.getElementById("media-video");
-        if (v != null) {
-          v.pause();
-        }
-        mvideo.hide();
-        $(this).hide();
+      var closeButton = $(
+        `<img src="` + require("../assets/closeButton1.png") + `" alt="">`
+      )
+        .css({ position: "absolute", top: "15px", right: "15px" })
+        // .css("float", "right")
+        .css("cursor", "pointer");
+      $("#media-modal div")
+        .attr("id", "modal-video-box")
+        .append(closeButton)
+        .append(
+          `<p class="text-center" style="width: 100%"><strong class="text-info">正在播放：` +
+            this.onlineFile.name +
+            `</strong></p>`
+        )
+        .append(
+          `<video src="` +
+            this.onlineFileSrc +
+            `" style="max-height:500px; max-width:100%;" controls=true autoplay="autoplay"></video>`
+        )
+        .show();
+      $("#media-modal").show();
+      $("video")[0].volume = 0.35;
+      closeButton.click(function () {
+        $("#modal-video-box").empty().removeAttr("id");
+        $("#media-modal").hide();
       });
     },
 
@@ -642,36 +610,60 @@ export default {
   position: fixed;
   width: 100%;
   height: 100%;
-  z-index: 1500;
-  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1050;
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  display: none;
 }
 
-#video-container {
-  padding: 20px;
+#modal-image-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#modal-audio-box,
+#modal-video-box {
+  padding: 15px;
   border-radius: 5px;
-  background-color: #fff;
-  display: none;
+  background: #fff;
+}
+
+#modal-video-box {
+  position: relative;
+  max-width: 95%;
+  max-height: 95%;
+  display: flex;
+  flex-direction: column;
+}
+
+#modal-video-box video {
+  width: 100%;
+  max-height: 500px;
+  object-fit: cover;
 }
 
 @media screen and (max-width: 700px) {
-  #video-container {
+  #modal-audio-box {
     width: 95%;
+  }
+  #modal-video-box {
+    max-width: 95%;
+    /* max-height: 80%; */
   }
 }
 
 @media screen and (min-width: 700px) {
-  #video-container {
+  #modal-audio-box {
     width: 700px;
   }
-}
-
-#video-container video {
-  width: 100%;
+  #modal-video-box {
+    max-width: 700px;
+    /* max-height: 80%; */
+  }
 }
 
 #home-content {
@@ -710,8 +702,8 @@ export default {
   font-weight: bold;
 }
 
-#breadcrumb-path:not(:last-child ){
-  color: #17A2B8;
+#breadcrumb-path:not(:last-child) {
+  color: #17a2b8;
 }
 
 #file-box {
