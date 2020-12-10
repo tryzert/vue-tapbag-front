@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <li class="list-group-item">
-      <input @click="checkboxClicked" type="checkbox" v-model="checked" />
+      <input type="checkbox" v-model="checked" @click="checkboxClicked" />
       <div id="fileinfo-box" @click="fileinfoClicked(id)">
         <img style="width: 23px" :src="imgSrc" alt="" />
         <span class="text-info text-break">{{ name }}</span>
@@ -12,24 +12,29 @@
 
 <script>
 export default {
-  props: ["id", "type", "openable", "name", "relpath"],
+  props: ["id", "type", "openable", "name", "relpath", "isChecked"],
+  // model: {
+  //   prop: "isChecked",
+  //   event: "change"
+  // },
   data() {
     return {
-      checked: false,
+      checked: this.isChecked,
     };
   },
   computed: {
     imgSrc() {
-      // return "http://localhost:9010/tapbag/static/img/" + this.type + ".svg";
       return require("../assets/" + this.type + ".svg")
     },
   },
-  updated(){
-    // this.checked = false;
+  watch: {
+    isChecked(val) {
+      this.checked = val;
+    }
   },
   methods: {
     checkboxClicked() {
-      this.checked = !this.checked;
+      this.$emit("emitCheckboxValue", this.id);
     },
     fileinfoClicked(info) {
       if (this.type == "folder") {

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div id="media-modal" style="display: none">
+    <div id="modal-backdrop-box" style="display: none">
       <div></div>
     </div>
     <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
@@ -249,12 +249,19 @@
                   class="form-check-input"
                   id="checkbox-all"
                   style="height: 20px; width: 20px"
+                  v-model="selectAllCheckboxValue"
+                  @click="selectAllCheckboxClicked"
                 />
                 <label class="form-check-label" for="checkbox-all"
                   >&nbsp;全选</label
                 >
               </div>
-              <button type="button" class="btn btn-success btn-sm">
+              <button
+                type="button"
+                class="btn btn-success btn-sm"
+                @click="createButtonClicked"
+                v-show="checkedFileIdList.length === 0"
+              >
                 <svg
                   width="1em"
                   height="1em"
@@ -268,7 +275,12 @@
                   /></svg
                 >新建
               </button>
-              <button type="button" class="btn btn-info btn-sm">
+              <button
+                type="button"
+                class="btn btn-info btn-sm"
+                @click="uploadButtonClicked"
+                v-show="checkedFileIdList.length === 0"
+              >
                 <svg
                   width="1em"
                   height="1em"
@@ -286,7 +298,12 @@
                   /></svg
                 >上传
               </button>
-              <button type="button" class="btn btn-warning btn-sm">
+              <button
+                type="button"
+                class="btn btn-warning btn-sm"
+                @click="downloadButtonClicked"
+                v-show="checkedFileIdList.length > 0"
+              >
                 <svg
                   width="1em"
                   height="1em"
@@ -304,7 +321,12 @@
                   /></svg
                 >下载
               </button>
-              <button type="button" class="btn btn-primary btn-sm">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                @click="moveButtonClicked"
+                v-show="checkedFileIdList.length > 0"
+              >
                 <svg
                   width="1em"
                   height="1em"
@@ -318,7 +340,12 @@
                   /></svg
                 >移动
               </button>
-              <button type="button" class="btn btn-info btn-sm">
+              <button
+                type="button"
+                class="btn btn-info btn-sm"
+                @click="renameButtonClicked"
+                v-show="checkedFileIdList.length === 1"
+              >
                 <svg
                   width="1em"
                   height="1em"
@@ -332,7 +359,12 @@
                   /></svg
                 >重命名
               </button>
-              <button type="button" class="btn btn-danger btn-sm">
+              <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                @click="deleteButtonClicked"
+                v-show="checkedFileIdList.length > 0"
+              >
                 <svg
                   width="1em"
                   height="1em"
@@ -387,8 +419,10 @@
                   :name="file.name"
                   :type="file.type"
                   :relpath="file.relpath"
+                  :isChecked="file.isChecked"
                   @emitFileInfo="getFileInfo"
                   @emitFolderInfo="getFolderInfo"
+                  @emitCheckboxValue="getCheckboxValue"
                 ></FileCard>
               </ul>
             </div>
@@ -420,6 +454,7 @@ export default {
     return {
       curpath: "/",
       files: [],
+      selectAllCheckboxValue: false,
       onlineFile: {
         id: -1,
         type: "",
@@ -435,8 +470,8 @@ export default {
         return "";
       }
       return (
-        // "http://localhost:9010/tapbag/api/online" + this.onlineFile.relpath
-        "/tapbag/api/online" + this.onlineFile.relpath
+        "http://localhost:9010/tapbag/api/online" + this.onlineFile.relpath
+        // "/tapbag/api/online" + this.onlineFile.relpath
       );
     },
     historyPaths() {
@@ -464,6 +499,15 @@ export default {
       });
       return res;
     },
+    checkedFileIdList() {
+      var _list = [];
+      this.files.forEach((e) => {
+        if (e["isChecked"]) {
+          _list.push(e["id"]);
+        }
+      });
+      return _list;
+    },
   },
   created() {
     this.$toast({
@@ -486,24 +530,22 @@ export default {
           this.onlineFileSrc +
           `" style="max-width: 100%; max-height: 100%" alt="">`
       );
-      $("#media-modal div")
+      $("#modal-backdrop-box div")
         .attr("id", "modal-image-box")
         .append(closeButton)
         .append(image);
-      $("#media-modal").show();
+      $("#modal-backdrop-box").show();
       closeButton.click(function () {
         $("#modal-image-box").empty().removeAttr("id");
-        $("#media-modal").hide();
+        $("#modal-backdrop-box").hide();
       });
     },
 
     playAudio() {
       var closeButton = $(
         `<img src="` + require("../assets/closeButton1.png") + `" alt="">`
-      )
-        .css("float", "right")
-        .css("cursor", "pointer");
-      $("#media-modal div")
+      ).css({ float: "right", cursor: "pointer" });
+      $("#modal-backdrop-box div")
         .attr("id", "modal-audio-box")
         .append(closeButton)
         .append(
@@ -516,22 +558,24 @@ export default {
             this.onlineFileSrc +
             `" style="width: 100%" controls=true autoplay="autoplay"></audio>`
         );
-      $("#media-modal").show();
+      $("#modal-backdrop-box").show();
       $("audio")[0].volume = 0.35;
       closeButton.click(function () {
         $("#modal-audio-box").empty().removeAttr("id");
-        $("#media-modal").hide();
+        $("#modal-backdrop-box").hide();
       });
     },
 
     playVideo() {
       var closeButton = $(
         `<img src="` + require("../assets/closeButton1.png") + `" alt="">`
-      )
-        .css({ position: "absolute", top: "15px", right: "15px" })
-        // .css("float", "right")
-        .css("cursor", "pointer");
-      $("#media-modal div")
+      ).css({
+        position: "absolute",
+        top: "15px",
+        right: "15px",
+        cursor: "pointer",
+      });
+      $("#modal-backdrop-box div")
         .attr("id", "modal-video-box")
         .append(closeButton)
         .append(
@@ -545,11 +589,11 @@ export default {
             `" style="max-height:500px; max-width:100%;" controls=true autoplay="autoplay"></video>`
         )
         .show();
-      $("#media-modal").show();
+      $("#modal-backdrop-box").show();
       $("video")[0].volume = 0.35;
       closeButton.click(function () {
         $("#modal-video-box").empty().removeAttr("id");
-        $("#media-modal").hide();
+        $("#modal-backdrop-box").hide();
       });
     },
 
@@ -564,13 +608,28 @@ export default {
             this.files = [];
           } else if (res.data.code === 2000) {
             this.files = res.data.data;
+            this.files.forEach((e) => {
+              // e["isChecked"] = false;
+              /////  !!!!!!!!!!!!!!!!!!!!!!!!!!
+              ////    var obj = {"id": 1, "name": "jack"};
+              ////    给一个对象添加新属性时，如给 obj添加一个age属性，必须通过下面的方法，否则后续vue监听不到 "age” 属性的变化,
+              ////    当后续 computed等方法 依赖 "age" 属性时，就会发生计算错误！！！！！
+              /////  !!!!!!!!!!!!!!!!!!!!!!!!!!
+              this.$set(e, "isChecked", false);
+            });
           }
           this.curpath = path;
+          this.selectAllCheckboxValue = false;
         })
         .catch((error) => {
           console.log(error);
+          this.$toast({
+            type: "error",
+            message: "网络出错！",
+          });
         });
     },
+
     getFileInfo(info) {
       if (this.files[info].openable) {
         this.onlineFile.id = this.files[info].id;
@@ -592,8 +651,206 @@ export default {
         });
       }
     },
+
     getFolderInfo(info) {
       this.getFiles(this.files[info].relpath);
+    },
+
+    getCheckboxValue(id) {
+      this.files[id].isChecked = !this.files[id].isChecked;
+    },
+
+    selectAllCheckboxClicked() {
+      this.files.forEach((e) => {
+        e["isChecked"] = !this.selectAllCheckboxValue;
+      });
+    },
+
+    createButtonClicked() {
+      var _this = this;
+      var inputText = $(
+        `<input type="text" name="filename" style="width: 100%">`
+      );
+      var confirmButton = $(
+        `<button type="button" class="btn btn-success btn-sm float-right" style="margin-left:5px;">确定</button>`
+      );
+      var cancelButton = $(
+        `<button type="button" class="btn btn-secondary btn-sm float-right">取消</button>`
+      );
+      $("#modal-backdrop-box div")
+        .attr("id", "modal-dialog-box")
+        .append(
+          `<p class="text-center" style="width: 100%"><strong class="text-info">新建文件夹</strong></p>
+        <div class="dropdown-divider"></div>`
+        )
+        .append(inputText)
+        .append(`<div class="dropdown-divider"></div>`)
+        .append(confirmButton)
+        .append(cancelButton);
+      $("#modal-backdrop-box").show();
+      cancelButton.click(function () {
+        $("#modal-dialog-box").empty().removeAttr("id");
+        $("#modal-backdrop-box").hide();
+      });
+      confirmButton.click(function () {
+        if (inputText.val() == "") {
+          return;
+        }
+        _this.files.forEach((e) => {
+          if (e.name === inputText.val()) {
+            _this.$toast({
+              type: "error",
+              message: "文件夹已存在！",
+            });
+            return;
+          }
+        });
+        _this.$axios
+          .post("/tapbag/api", {
+            code: 2001,
+            data: _this.curpath + "/" + inputText.val(),
+          })
+          .then((res) => {
+            if (res.data.code === 2001) {
+              _this.getFiles(_this.curpath);
+              _this.$toast({
+                type: "success",
+                message: res.data.tip,
+              });
+              $("#modal-dialog-box").empty().removeAttr("id");
+              $("#modal-backdrop-box").hide();
+            } else {
+              _this.$toast({
+                type: "error",
+                message: res.data.tip,
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(error);
+            _this.$toast({
+              type: "error",
+              message: "网络出错！",
+            });
+          });
+      });
+    },
+
+    uploadButtonClicked() {
+      var inputFiles = $(
+        `<input type="file" name="file" multiple="multiple"/>`
+      );
+      var confirmButton = $(
+        `<button type="button" class="btn btn-success btn-sm float-right" style="margin-left:5px;">确定</button>`
+      );
+      var cancelButton = $(
+        `<button type="button" class="btn btn-secondary btn-sm float-right">取消</button>`
+      );
+      $("#modal-backdrop-box div")
+        .attr("id", "modal-dialog-box")
+        .append(
+          `<p class="text-center" style="width: 100%"><strong class="text-info">上传文件</strong></p>
+        <div class="dropdown-divider"></div>`
+        )
+        .append(inputFiles)
+        .append(`<div class="dropdown-divider"></div>`)
+        .append(confirmButton)
+        .append(cancelButton);
+      $("#modal-backdrop-box").show();
+      cancelButton.click(function () {
+        $("#modal-dialog-box").empty().removeAttr("id");
+        $("#modal-backdrop-box").hide();
+      });
+      confirmButton.click(function () {
+        console.log(inputFiles.get(0).files);
+      });
+    },
+
+    downloadButtonClicked() {
+      var confirmButton = $(
+        `<button type="button" class="btn btn-success btn-sm float-right" style="margin-left:5px;">确定</button>`
+      );
+      var cancelButton = $(
+        `<button type="button" class="btn btn-secondary btn-sm float-right">取消</button>`
+      );
+      $("#modal-backdrop-box div")
+        .attr("id", "modal-dialog-box")
+        .append(
+          `<p class="text-center" style="width: 100%"><strong class="text-info">下载文件</strong></p>
+        <div class="dropdown-divider"></div>`
+        )
+        .append(`下载所有选中的文件吗？`)
+        .append(`<div class="dropdown-divider"></div>`)
+        .append(confirmButton)
+        .append(cancelButton);
+      $("#modal-backdrop-box").show();
+      cancelButton.click(function () {
+        $("#modal-dialog-box").empty().removeAttr("id");
+        $("#modal-backdrop-box").hide();
+      });
+    },
+
+    moveButtonClicked() {},
+
+    renameButtonClicked() {
+      if (this.checkedFileIdList.length != 1) {
+        return;
+      }
+      var inputText = $(
+        `<input type="text" name="filename" style="width: 100%">`
+      );
+      var filename = this.files[this.checkedFileIdList[0]].name;
+      inputText.val(filename);
+      var confirmButton = $(
+        `<button type="button" class="btn btn-success btn-sm float-right" style="margin-left:5px;">确定</button>`
+      );
+      var cancelButton = $(
+        `<button type="button" class="btn btn-secondary btn-sm float-right">取消</button>`
+      );
+      $("#modal-backdrop-box div")
+        .attr("id", "modal-dialog-box")
+        .append(
+          `<p class="text-center" style="width: 100%"><strong class="text-info">重命名</strong></p>
+        <div class="dropdown-divider"></div>`
+        )
+        .append(inputText)
+        .append(`<div class="dropdown-divider"></div>`)
+        .append(confirmButton)
+        .append(cancelButton);
+      $("#modal-backdrop-box").show();
+      cancelButton.click(function () {
+        $("#modal-dialog-box").empty().removeAttr("id");
+        $("#modal-backdrop-box").hide();
+      });
+      confirmButton.click(function () {
+        console.log(inputText.val());
+      });
+    },
+
+    deleteButtonClicked() {
+      var confirmButton = $(
+        `<button type="button" class="btn btn-success btn-sm float-right" style="margin-left:5px;">确定</button>`
+      );
+      var cancelButton = $(
+        `<button type="button" class="btn btn-secondary btn-sm float-right">取消</button>`
+      );
+      $("#modal-backdrop-box div")
+        .attr("id", "modal-dialog-box")
+        .append(
+          `<p class="text-center" style="width: 100%"><strong class="text-info">删除文件</strong></p>
+        <div class="dropdown-divider"></div>`
+        )
+        .append(
+          `确定要删除选中的这些文件吗？已删除的文件你可以在回收站中找到它们。`
+        )
+        .append(`<div class="dropdown-divider"></div>`)
+        .append(confirmButton)
+        .append(cancelButton);
+      $("#modal-backdrop-box").show();
+      cancelButton.click(function () {
+        $("#modal-dialog-box").empty().removeAttr("id");
+        $("#modal-backdrop-box").hide();
+      });
     },
   },
 };
@@ -606,7 +863,7 @@ export default {
   position: fixed;
 }
 
-#media-modal {
+#modal-backdrop-box {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -626,7 +883,8 @@ export default {
 }
 
 #modal-audio-box,
-#modal-video-box {
+#modal-video-box,
+#modal-dialog-box {
   padding: 15px;
   border-radius: 5px;
   background: #fff;
@@ -650,9 +908,11 @@ export default {
   #modal-audio-box {
     width: 95%;
   }
+  #modal-dialog-box {
+    width: 95%;
+  }
   #modal-video-box {
     max-width: 95%;
-    /* max-height: 80%; */
   }
 }
 
@@ -660,9 +920,11 @@ export default {
   #modal-audio-box {
     width: 700px;
   }
+  #modal-dialog-box {
+    width: 700px;
+  }
   #modal-video-box {
     max-width: 700px;
-    /* max-height: 80%; */
   }
 }
 
