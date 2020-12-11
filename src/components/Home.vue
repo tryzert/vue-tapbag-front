@@ -658,6 +658,11 @@ export default {
 
     getCheckboxValue(id) {
       this.files[id].isChecked = !this.files[id].isChecked;
+      if (this.checkedFileIdList.length === this.files.length) {
+        this.selectAllCheckboxValue = true;
+      } else {
+        this.selectAllCheckboxValue = false;
+      }
     },
 
     selectAllCheckboxClicked() {
@@ -696,7 +701,7 @@ export default {
         if (inputText.val() == "") {
           return;
         }
-        _this.files.forEach((e) => {
+        for (let e of _this.files) {
           if (e.name === inputText.val()) {
             _this.$toast({
               type: "error",
@@ -704,7 +709,7 @@ export default {
             });
             return;
           }
-        });
+        }
         _this.$axios
           .post("/tapbag/api", {
             code: 2001,
@@ -726,7 +731,7 @@ export default {
               });
             }
           })
-          .catch((err) => {
+          .catch((error) => {
             console.log(error);
             _this.$toast({
               type: "error",
@@ -737,8 +742,9 @@ export default {
     },
 
     uploadButtonClicked() {
+      var _this = this;
       var inputFiles = $(
-        `<input type="file" name="file" multiple="multiple"/>`
+        `<input type="file" id="file-upload" name="file" multiple="multiple"/>`
       );
       var confirmButton = $(
         `<button type="button" class="btn btn-success btn-sm float-right" style="margin-left:5px;">确定</button>`
@@ -762,11 +768,45 @@ export default {
         $("#modal-backdrop-box").hide();
       });
       confirmButton.click(function () {
-        console.log(inputFiles.get(0).files);
+        if (inputFiles.get(0).files.length === 0) {
+          return;
+        }
+        var formData = new FormData();
+        // formData.append("upload", 1);
+        formData.append("path", _this.curpath);
+        for (let e of inputFiles.get(0).files) {
+          formData.append("files", e);
+        }
+        _this.$axios
+          .post("/tapbag/api/upload", formData)
+          .then((res) => {
+            _this.getFiles(_this.curpath);
+            if (res.data.code === 2002) {
+              _this.$toast({
+                type: "success",
+                message: res.data.tip,
+              });
+            } else {
+              _this.$toast({
+                type: "error",
+                message: res.data.tip,
+              });
+            }
+            $("#modal-dialog-box").empty().removeAttr("id");
+            $("#modal-backdrop-box").hide();
+          })
+          .catch((error) => {
+            console.log(error);
+            _this.$toast({
+              type: "error",
+              message: "发生网络错误！",
+            });
+          });
       });
     },
 
     downloadButtonClicked() {
+      var _this = this;
       var confirmButton = $(
         `<button type="button" class="btn btn-success btn-sm float-right" style="margin-left:5px;">确定</button>`
       );
@@ -788,14 +828,30 @@ export default {
         $("#modal-dialog-box").empty().removeAttr("id");
         $("#modal-backdrop-box").hide();
       });
+      confirmButton.click(function() {
+        var downloadList = [];
+        for (let e of _this.files) {
+          downloadList.push(e.relpath);
+        }
+        _this.$axios.post("/tapbag/api", {
+          code: 2003,
+          data: downloadList,
+        }).then((res) => {
+          console.log(res.data)
+        }).catch((error) => {
+          console.log(error);
+        });
+      });
     },
 
     moveButtonClicked() {},
 
     renameButtonClicked() {
+      var _this = this;
       if (this.checkedFileIdList.length != 1) {
         return;
       }
+
       var inputText = $(
         `<input type="text" name="filename" style="width: 100%">`
       );
@@ -823,11 +879,46 @@ export default {
         $("#modal-backdrop-box").hide();
       });
       confirmButton.click(function () {
-        console.log(inputText.val());
+        for (let e of _this.files) {
+          if (e.name === inputText.val()) {
+            _this.$toast({
+              type: "error",
+              message: "文件名重复了！",
+            });
+            return;
+          }
+        }
+        _this.$axios
+          .post("/tapbag/api", {
+            code: 2005,
+            data: {
+              oldpath: _this.curpath + "/" + filename,
+              newpath: _this.curpath + "/" + inputText.val(),
+            },
+          })
+          .then((res) => {
+            if (res.data.code === 2005) {
+              _this.getFiles(_this.curpath);
+              _this.$toast({
+                type: "success",
+                message: res.data.tip,
+              });
+              $("#modal-dialog-box").empty().removeAttr("id");
+              $("#modal-backdrop-box").hide();
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            _this.$toast({
+              type: "error",
+              message: "网络出错！",
+            });
+          });
       });
     },
 
     deleteButtonClicked() {
+      var _this = this;
       var confirmButton = $(
         `<button type="button" class="btn btn-success btn-sm float-right" style="margin-left:5px;">确定</button>`
       );
@@ -840,14 +931,49 @@ export default {
           `<p class="text-center" style="width: 100%"><strong class="text-info">删除文件</strong></p>
         <div class="dropdown-divider"></div>`
         )
-        .append(
-          `确定要删除选中的这些文件吗？已删除的文件你可以在回收站中找到它们。`
-        )
+        .append(`确定要永久删除选中的这些文件吗？`)
         .append(`<div class="dropdown-divider"></div>`)
         .append(confirmButton)
         .append(cancelButton);
       $("#modal-backdrop-box").show();
       cancelButton.click(function () {
+        $("#modal-dialog-box").empty().removeAttr("id");
+        $("#modal-backdrop-box").hide();
+      });
+      confirmButton.click(function () {
+        var deleteFileList = [];
+        for (let e of _this.checkedFileIdList) {
+          deleteFileList.push(_this.files[e].relpath);
+        }
+        if (deleteFileList.length === 0) {
+          return;
+        }
+        _this.$axios
+          .post("/tapbag/api", {
+            code: 2006,
+            data: deleteFileList,
+          })
+          .then((res) => {
+            if (res.data.code === 2006) {
+              _this.$toast({
+                type: "success",
+                message: "文件删除成功！",
+              });
+            } else {
+              _this.$toast({
+                type: "error",
+                message: res.data.tip,
+              });
+            }
+            _this.getFiles(_this.curpath);
+          })
+          .catch((error) => {
+            console.log(error);
+            _this.$toast({
+              type: "error",
+              message: "网络出错！",
+            });
+          });
         $("#modal-dialog-box").empty().removeAttr("id");
         $("#modal-backdrop-box").hide();
       });
