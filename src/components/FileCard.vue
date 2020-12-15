@@ -13,10 +13,6 @@
 <script>
 export default {
   props: ["id", "type", "openable", "name", "relpath", "isChecked"],
-  // model: {
-  //   prop: "isChecked",
-  //   event: "change"
-  // },
   data() {
     return {
       checked: this.isChecked,
@@ -52,11 +48,15 @@ export default {
 input {
   width: 20px;
   height: 20px;
-  margin: auto 5px;
+  /* margin: auto 5px; */
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 img {
-  margin: auto 10px;
+  /* margin: auto 10px; */
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .list-group-item {

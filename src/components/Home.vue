@@ -36,7 +36,7 @@
             去导航页
           </span></a
         >
-        <a class="navbar-nav nav-link d-md-none" href="/"
+        <a class="navbar-nav nav-link d-md-none" href="/tapbag"
           ><span
             ><svg
               width="1.5em"
@@ -470,7 +470,9 @@ export default {
         return "";
       }
       return (
-        "http://localhost:9010/tapbag/api/online" + this.onlineFile.relpath
+        // "http://localhost:9010/tapbag/api/online" + this.onlineFile.relpath
+        "http://localhost:9010/tapbag/api/online?path=" +
+        this.onlineFile.relpath
         // "/tapbag/api/online" + this.onlineFile.relpath
       );
     },
@@ -510,91 +512,29 @@ export default {
     },
   },
   created() {
+    this.getFiles("/");
     this.$toast({
       type: "success",
       message: "数据更新成功！",
     });
-    this.getFiles("/");
   },
   methods: {
     showImage() {
-      var closeButton = $(
-        `<img src="` + require("../assets/closeButton.png") + `" alt="">`
-      )
-        .css("top", "0")
-        .css("right", "0")
-        .css("position", "fixed")
-        .css("cursor", "pointer");
-      var image = $(
-        `<img src="` +
-          this.onlineFileSrc +
-          `" style="max-width: 100%; max-height: 100%" alt="">`
-      );
-      $("#modal-backdrop-box div")
-        .attr("id", "modal-image-box")
-        .append(closeButton)
-        .append(image);
-      $("#modal-backdrop-box").show();
-      closeButton.click(function () {
-        $("#modal-image-box").empty().removeAttr("id");
-        $("#modal-backdrop-box").hide();
-      });
+      this.$viewImage(this.onlineFileSrc);
     },
-
+    showText() {},
     playAudio() {
-      var closeButton = $(
-        `<img src="` + require("../assets/closeButton1.png") + `" alt="">`
-      ).css({ float: "right", cursor: "pointer" });
-      $("#modal-backdrop-box div")
-        .attr("id", "modal-audio-box")
-        .append(closeButton)
-        .append(
-          `<p class="text-center" style="width: 100%"><strong class="text-info">正在播放：` +
-            this.onlineFile.name +
-            `</strong></p>`
-        )
-        .append(
-          `<audio src="` +
-            this.onlineFileSrc +
-            `" style="width: 100%" controls=true autoplay="autoplay"></audio>`
-        );
-      $("#modal-backdrop-box").show();
-      $("audio")[0].volume = 0.35;
-      closeButton.click(function () {
-        $("#modal-audio-box").empty().removeAttr("id");
-        $("#modal-backdrop-box").hide();
+      this.$viewAudio({
+        audioName: this.onlineFile.name,
+        audioSrc: this.onlineFileSrc
       });
     },
 
     playVideo() {
-      var closeButton = $(
-        `<img src="` + require("../assets/closeButton1.png") + `" alt="">`
-      ).css({
-        position: "absolute",
-        top: "15px",
-        right: "15px",
-        cursor: "pointer",
-      });
-      $("#modal-backdrop-box div")
-        .attr("id", "modal-video-box")
-        .append(closeButton)
-        .append(
-          `<p class="text-center" style="width: 100%"><strong class="text-info">正在播放：` +
-            this.onlineFile.name +
-            `</strong></p>`
-        )
-        .append(
-          `<video src="` +
-            this.onlineFileSrc +
-            `" style="max-height:500px; max-width:100%;" controls=true autoplay="autoplay"></video>`
-        )
-        .show();
-      $("#modal-backdrop-box").show();
-      $("video")[0].volume = 0.35;
-      closeButton.click(function () {
-        $("#modal-video-box").empty().removeAttr("id");
-        $("#modal-backdrop-box").hide();
-      });
+      this.$viewVideo({
+        videoName: this.onlineFile.name,
+        videoSrc: this.onlineFileSrc
+      })
     },
 
     getFiles(path) {
@@ -637,7 +577,9 @@ export default {
         this.onlineFile.openable = this.files[info].openable;
         this.onlineFile.name = this.files[info].name;
         this.onlineFile.relpath = this.files[info].relpath;
-        if (this.files[info].type === "image") {
+        if (this.files[info].type === "text") {
+          this.showText();
+        } else if (this.files[info].type === "image") {
           this.showImage();
         } else if (this.files[info].type === "audio") {
           this.playAudio();
@@ -755,7 +697,7 @@ export default {
       $("#modal-backdrop-box div")
         .attr("id", "modal-dialog-box")
         .append(
-          `<p class="text-center" style="width: 100%"><strong class="text-info">上传文件</strong></p>
+          `<p class="text-center" style="width: 100%"><strong class="text-info">上传文件(不能包含文件夹)</strong></p>
         <div class="dropdown-divider"></div>`
         )
         .append(inputFiles)
@@ -828,23 +770,13 @@ export default {
         $("#modal-dialog-box").empty().removeAttr("id");
         $("#modal-backdrop-box").hide();
       });
-      confirmButton.click(function() {
-        var downloadList = [];
-        for (let e of _this.files) {
-          downloadList.push(e.relpath);
-        }
-        _this.$axios.post("/tapbag/api", {
-          code: 2003,
-          data: downloadList,
-        }).then((res) => {
-          console.log(res.data)
-        }).catch((error) => {
-          console.log(error);
-        });
+      confirmButton.click(function () {
+
       });
     },
 
-    moveButtonClicked() {},
+    moveButtonClicked() {
+    },
 
     renameButtonClicked() {
       var _this = this;

@@ -8,14 +8,23 @@ import router from './router'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import axios from 'axios'
+import toast from './components/modal/toast/toast.js'
 
-import toast from './components/toast/toast.js'
+
+import viewImage from './components/modal/media/image'
+import viewAudio from './components/modal/media/audio'
+import viewVideo from './components/modal/media/video'
 
 
 axios.defaults.baseURL = 'http://localhost:9010'
 Vue.prototype.$axios = axios
-
 Vue.prototype.$toast = toast
+
+
+Vue.use(viewImage)
+Vue.use(viewAudio)
+Vue.use(viewVideo)
+
 
 Vue.config.productionTip = false
 
