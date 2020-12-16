@@ -14,6 +14,7 @@ import toast from './components/modal/toast/toast.js'
 import viewImage from './components/modal/media/image'
 import viewAudio from './components/modal/media/audio'
 import viewVideo from './components/modal/media/video'
+import viewText from './components/modal/media/text'
 
 
 axios.defaults.baseURL = 'http://localhost:9010'
@@ -24,6 +25,7 @@ Vue.prototype.$toast = toast
 Vue.use(viewImage)
 Vue.use(viewAudio)
 Vue.use(viewVideo)
+Vue.use(viewText)
 
 
 Vue.config.productionTip = false

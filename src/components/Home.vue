@@ -522,19 +522,34 @@ export default {
     showImage() {
       this.$viewImage(this.onlineFileSrc);
     },
-    showText() {},
+    showText() {
+      this.$axios
+        .get(this.onlineFileSrc)
+        .then((res) => {
+          this.$viewText({
+            textName: this.onlineFile.name,
+            textContent: res.data,
+          });
+        })
+        .catch((error) => {
+          this.$toast({
+            type: "error",
+            message: "发生网络错误！",
+          });
+        });
+    },
     playAudio() {
       this.$viewAudio({
         audioName: this.onlineFile.name,
-        audioSrc: this.onlineFileSrc
+        audioSrc: this.onlineFileSrc,
       });
     },
 
     playVideo() {
       this.$viewVideo({
         videoName: this.onlineFile.name,
-        videoSrc: this.onlineFileSrc
-      })
+        videoSrc: this.onlineFileSrc,
+      });
     },
 
     getFiles(path) {
@@ -770,13 +785,10 @@ export default {
         $("#modal-dialog-box").empty().removeAttr("id");
         $("#modal-backdrop-box").hide();
       });
-      confirmButton.click(function () {
-
-      });
+      confirmButton.click(function () {});
     },
 
-    moveButtonClicked() {
-    },
+    moveButtonClicked() {},
 
     renameButtonClicked() {
       var _this = this;
