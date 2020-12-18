@@ -513,10 +513,6 @@ export default {
   },
   created() {
     this.getFiles("/");
-    this.$toast({
-      type: "success",
-      message: "数据更新成功！",
-    });
   },
   methods: {
     showImage() {
@@ -785,10 +781,71 @@ export default {
         $("#modal-dialog-box").empty().removeAttr("id");
         $("#modal-backdrop-box").hide();
       });
-      confirmButton.click(function () {});
+      confirmButton.click(function () {
+        let downloadFileList = [];
+        for (let e of _this.checkedFileIdList) {
+          downloadFileList.push(_this.files[e].relpath);
+        }
+        if (downloadFileList.length === 0) {
+          _this.$toast({
+            type: "error",
+            message: "选中项不能为空！",
+          });
+          return;
+        }
+        if (downloadFileList.length > 30) {
+          _this.$toast({
+            type: "error",
+            message: "系统限制：一次性下载数量不得超过30",
+            duration: 3000,
+          });
+          return;
+        }
+        _this.$toast({
+          type: "success",
+          message: "下载即将开始，系统准备中...",
+        });
+        _this.$axios
+          .post("/tapbag/api", {
+            code: 2003,
+            data: downloadFileList,
+          })
+          .then((res) => {
+            if (res.data.code === 2003) {
+              window.open(
+                "http://localhost:9010/tapbag/api/download?files=" +
+                  res.data.data
+              );
+              $("#modal-dialog-box").empty().removeAttr("id");
+              $("#modal-backdrop-box").hide();
+            } else {
+              _this.$toast({
+                type: "error",
+                message: res.data.tip,
+              });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            _this.$toast({
+              type: "error",
+              message: "网络出错！",
+            });
+          });
+      });
     },
 
-    moveButtonClicked() {},
+    moveButtonClicked() {
+      var moveFileList = [];
+      for (let e of this.checkedFileIdList) {
+        moveFileList.push(this.files[e].relpath);
+      }
+      this.$viewFileTree({
+        moveList: moveFileList,
+        from: this.curpath,
+        to: "",
+      });
+    },
 
     renameButtonClicked() {
       var _this = this;
@@ -903,6 +960,8 @@ export default {
                 type: "success",
                 message: "文件删除成功！",
               });
+              $("#modal-dialog-box").empty().removeAttr("id");
+              $("#modal-backdrop-box").hide();
             } else {
               _this.$toast({
                 type: "error",
@@ -918,8 +977,6 @@ export default {
               message: "网络出错！",
             });
           });
-        $("#modal-dialog-box").empty().removeAttr("id");
-        $("#modal-backdrop-box").hide();
       });
     },
   },

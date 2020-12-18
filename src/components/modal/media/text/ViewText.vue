@@ -114,6 +114,7 @@ export default {
   overflow: auto;
   border: 1px solid green;
   border-radius: 5px;
+  padding: 5px;
 }
 
 .cursor-style {
