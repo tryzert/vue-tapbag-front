@@ -80,6 +80,10 @@ export default {
       this.activeName = msg;
       this.moveData.to = msg;
     });
+    this.prom.promise = new Promise((resolve, reject) => {
+      this.prom.resolve = resolve;
+      this.prom.reject = reject;
+    });
   },
   data() {
     return {
@@ -96,6 +100,12 @@ export default {
         hasChildren: false,
         children: [],
       },
+      //用于弹窗结果回调
+      prom: {
+        promise: "",
+        resolve: "",
+        reject: "",
+      },
     };
   },
   methods: {
@@ -104,25 +114,78 @@ export default {
       $("#filetree-mask").remove();
     },
     confirm() {
-      console.log(this.moveData);
       if (this.moveData.from === "") {
         this.$toast({
           type: "error",
           message: "路径出错！",
         });
+        return;
       }
       if (this.moveData.to === "") {
         this.$toast({
           type: "error",
           message: "请选择路径！",
         });
+        return;
       }
+      if (this.moveData.moveList.length === 0) {
+        this.$toast({
+          type: "error",
+          message: "请先选择要移动的文件！",
+        });
+        return;
+      }
+      // 文件移动路径逻辑判断
+      //1. 同级目录
       if (this.moveData.from === this.moveData.to) {
         this.$toast({
           type: "error",
           message: "文件已在此路径下！",
         });
+        return;
       }
+      // 2.文件夹不能移动到子目录  /a/b/c  ===>  /a/b/c/d  错误！
+      for (var file of this.moveData.moveList) {
+        if (this.moveData.to.indexOf(file) === 0) {
+          this.$toast({
+            type: "error",
+            message: "路径冲突：文件夹不能移到子文件夹或本身！",
+            duration: 3000,
+          });
+          return;
+        }
+      }
+
+      this.$axios
+        .post("/tapbag/api", {
+          code: 2004,
+          data: this.moveData,
+        })
+        .then((res) => {
+          if (res.data.code === 2004) {
+            this.$toast({
+              type: "success",
+              message: "文件移动成功！",
+            });
+            this.prom.resolve(this.moveData.to);
+            this.closeSelf();
+          } else {
+            this.$toast({
+              type: "error",
+              message: res.data.data,
+              duration: 3000,
+            });
+            this.prom.reject(res.data.tip);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          this.prom.reject("网络错误！");
+          this.$toast({
+            type: "error",
+            message: "网络错误！",
+          });
+        });
     },
   },
 };

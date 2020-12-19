@@ -15,6 +15,11 @@ viewFileTree.install = function (Vue) {
             // document.body.appendChild(dom.$el);
             dom.moveData = data;
             $('.home').append(dom.$el);
+            return dom.prom.promise.then((val) => {
+                return Promise.resolve(val);
+            }).catch((err) => {
+                return Promise.reject(err);
+            });
         }
 
     }

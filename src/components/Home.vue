@@ -844,7 +844,13 @@ export default {
         moveList: moveFileList,
         from: this.curpath,
         to: "",
-      });
+      })
+        .then(async (val) => {
+          this.getFiles(val);
+        })
+        .catch(async (err) => {
+          console.log(err);
+        });
     },
 
     renameButtonClicked() {
