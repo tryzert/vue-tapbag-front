@@ -16,6 +16,7 @@ import viewAudio from './components/modal/media/audio'
 import viewVideo from './components/modal/media/video'
 import viewText from './components/modal/media/text'
 import viewFileTree from './components/modal/filetree'
+import mOperation from './components/modal/operation'
 
 
 axios.defaults.baseURL = 'http://localhost:9010'
@@ -28,6 +29,7 @@ Vue.use(viewAudio)
 Vue.use(viewVideo)
 Vue.use(viewText)
 Vue.use(viewFileTree)
+Vue.use(mOperation)
 
 
 Vue.config.productionTip = false

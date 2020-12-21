@@ -15,7 +15,10 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand text-info" style="margin-right: 30px" href="tapbag"
+      <a
+        class="navbar-brand text-info"
+        style="margin-right: 30px"
+        href="/tapbag"
         ><strong>TapBag</strong> <span class="badge badge-info">V1.0</span></a
       >
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -36,7 +39,10 @@
             去导航页
           </span></a
         >
-        <a class="navbar-nav nav-link d-md-none" href="/tapbag"
+        <a
+          class="navbar-nav nav-link d-md-none"
+          role="button"
+          @click="getFiles('/')"
           ><span
             ><svg
               width="1.5em"
@@ -57,7 +63,10 @@
             全部文件</span
           ></a
         >
-        <a class="navbar-nav nav-link d-md-none" href="/"
+        <a
+          class="navbar-nav nav-link d-md-none"
+          role="button"
+          @click="myShareButtonClicked"
           ><span
             ><svg
               width="1.5em"
@@ -74,8 +83,12 @@
             我的分享</span
           ></a
         >
-        <a class="navbar-nav nav-link d-md-none" href="/"
-          ><span
+        <a
+          class="navbar-nav nav-link d-md-none"
+          role="button"
+          @click="recycleBinButtonClicked"
+        >
+          <span
             ><svg
               width="1.5em"
               height="1.5em"
@@ -92,8 +105,8 @@
               />
             </svg>
             回收站</span
-          ></a
-        >
+          >
+        </a>
         <form class="form-inline">
           <input
             class="form-control mr-sm-2"
@@ -101,10 +114,13 @@
             placeholder="输入你想要查找的文件"
             aria-label="Search"
           />
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-            搜索
-          </button>
         </form>
+        <button
+          class="btn btn-outline-success my-2 my-sm-0"
+          @click="searchButtonClicked"
+        >
+          搜索
+        </button>
         <ul class="navbar-nav ml-auto">
           <li class="nav-item dropdown">
             <a
@@ -206,7 +222,10 @@
                 </svg>
                 全部文件
               </li>
-              <li class="list-group-item text-info">
+              <li
+                class="list-group-item text-info"
+                @click="myShareButtonClicked"
+              >
                 <svg
                   width="1.5em"
                   height="1.5em"
@@ -221,7 +240,10 @@
                 </svg>
                 我的分享
               </li>
-              <li class="list-group-item text-info">
+              <li
+                class="list-group-item text-info"
+                @click="recycleBinButtonClicked"
+              >
                 <svg
                   width="1.5em"
                   height="1.5em"
@@ -423,6 +445,7 @@
                   @emitFileInfo="getFileInfo"
                   @emitFolderInfo="getFolderInfo"
                   @emitCheckboxValue="getCheckboxValue"
+                  @emitMoreOperationInfo="getMoreOperationInfo"
                 ></FileCard>
               </ul>
             </div>
@@ -616,6 +639,24 @@ export default {
       } else {
         this.selectAllCheckboxValue = false;
       }
+    },
+
+    getMoreOperationInfo(id) {
+      this.$moreOperation({
+        filename: this.files[id].name,
+      });
+    },
+
+    searchButtonClicked() {
+      console.log("search button clicked!");
+    },
+
+    myShareButtonClicked() {
+      console.log("my share button clicked!");
+    },
+
+    recycleBinButtonClicked() {
+      console.log("recycle bin button clicked!");
     },
 
     selectAllCheckboxClicked() {
@@ -813,7 +854,7 @@ export default {
           .then((res) => {
             if (res.data.code === 2003) {
               window.open(
-                "http://localhost:9010/tapbag/api/download?files=" +
+                "http://localhost:9010/tapbag/api/download?filekey=" +
                   res.data.data
               );
               $("#modal-dialog-box").empty().removeAttr("id");
@@ -938,7 +979,7 @@ export default {
           `<p class="text-center" style="width: 100%"><strong class="text-info">删除文件</strong></p>
         <div class="dropdown-divider"></div>`
         )
-        .append(`确定要永久删除选中的这些文件吗？`)
+        .append(`确定删除选中的文件吗？稍后你可以在回收站中找到它们。`)
         .append(`<div class="dropdown-divider"></div>`)
         .append(confirmButton)
         .append(cancelButton);
