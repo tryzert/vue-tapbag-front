@@ -10,51 +10,130 @@
         </p>
       </div>
       <div id="content-body">
-        <li style="cursor: pointer" class="list-group-item">
-          <div class="text-center" @click="toggleExpandDown">
-            <strong class="text-info">重命名</strong>
-          </div>
+        <div class="accordion" id="accordionExample">
+          <li class="list-group-item">
+            <div class="card">
+              <button
+                class="btn btn-link btn-block text-center text-info"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+              >
+                <strong class="text-info">重命名</strong>
+              </button>
 
-          <transition-group name="test">
-            <div
-              id="expand-down"
-              class="show-content"
-              v-if="showExpandDown"
-              :key="1"
-            >
-              <input
-                type="text"
-                name="filename"
-                style="width: 100%; margin-bottom: 7px"
-                v-model="inputFilename"
-              />
-              <div id="expand-down-button">
-                <button
-                  type="button"
-                  class="btn btn-secondary btn-sm"
-                  @click="toggleExpandDown"
-                >
-                  取消
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-success btn-sm"
-                  style="margin-left: 5px"
-                  @click="confirmButtonClicked"
-                >
-                  确定
-                </button>
+              <div
+                id="collapseOne"
+                class="collapse"
+                aria-labelledby="headingOne"
+                data-parent="#accordionExample"
+              >
+                <div class="card-body">
+                  <input
+                    type="text"
+                    name="filename"
+                    style="width: 100%; margin-bottom: 7px"
+                    v-model="inputFilename"
+                  />
+                  <div id="expand-down-button">
+                    <button
+                      type="button"
+                      class="btn btn-secondary btn-sm"
+                      data-toggle="collapse"
+                      href="#collapseOne"
+                      role="button"
+                      aria-expanded="false"
+                    >
+                      取消
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-success btn-sm"
+                      style="margin-left: 5px"
+                      @click="renameConfirmButtonClicked"
+                    >
+                      确定
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-          </transition-group>
-        </li>
-        <li
-          style="cursor: pointer"
-          class="list-group-item text-center"
-          @click="shareItemClicked"
-        >
-          <strong class="text-info">分享</strong>
-        </li>
+          </li>
+          <li class="list-group-item">
+            <div class="card">
+              <button
+                class="btn btn-link btn-block text-center collapsed"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapseTwo"
+                aria-expanded="false"
+                aria-controls="collapseTwo"
+              >
+                <strong class="text-info">分享</strong>
+              </button>
+              <div
+                id="collapseTwo"
+                class="collapse"
+                aria-labelledby="headingTwo"
+                data-parent="#accordionExample"
+              >
+                <div class="card-body">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect01"
+                        >状态</label
+                      >
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect01">
+                      <option value="0">分享码</option>
+                      <option selected value="1">公开</option>
+                    </select>
+                  </div>
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="inputGroupSelect01"
+                        >期限</label
+                      >
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect01">
+                      <option value="0">1小时</option>
+                      <option value="1">1天</option>
+                      <option selected value="2">7天</option>
+                      <option value="3">1个月</option>
+                      <option value="4">3个月</option>
+                      <option value="5">6个月</option>
+                      <option value="6">1年</option>
+                      <option value="7">永久</option>
+                    </select>
+                  </div>
+                    <!-- <p>链接🔗</p> -->
+                  <div id="expand-down-button">
+                    <button
+                      type="button"
+                      class="btn btn-secondary btn-sm"
+                      data-toggle="collapse"
+                      href="#collapseTwo"
+                      role="button"
+                      aria-expanded="false"
+                    >
+                      取消
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-success btn-sm"
+                      style="margin-left: 5px"
+                      @click="shareConfirmButtonClicked"
+                    >
+                      确定
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </div>
       </div>
       <div id="content-foot"></div>
     </div>
@@ -69,7 +148,7 @@ export default {
     return {
       filename: "",
       inputFilename: "",
-      showExpandDown: false,
+      //   showExpandDown: false,
     };
   },
 
@@ -79,14 +158,10 @@ export default {
       // document.body.removeChild(this.$el);
       $("#mask-box").remove();
     },
-    toggleExpandDown() {
-      this.showExpandDown = !this.showExpandDown;
-      //   this.inputFilename = this.filename;
-    },
-    confirmButtonClicked() {
+    renameConfirmButtonClicked() {
       console.log(" confirm Button Clicked");
     },
-    shareItemClicked() {
+    shareConfirmButtonClicked() {
       this.$toast({
         type: "success",
         message: "分享成功！",
@@ -130,18 +205,5 @@ export default {
 #expand-down-button {
   display: flex;
   justify-content: flex-end;
-}
-
-.test-enter,
-.test-leave-to {
-  opacity: 0;
-}
-.test-enter-to,
-.test-leave {
-  opacity: 1;
-}
-.test-enter-active,
-.test-leave-active {
-  transition: all 1s;
 }
 </style>
